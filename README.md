@@ -62,6 +62,7 @@ cd QuokkaJS
 ```bash
 npm install
 ```
+
 ### **3. Install ESLint**
 
 The project uses ESLint to enforce coding standards. Make sure that you're able to use it. ESLint extension use is advised.
