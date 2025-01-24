@@ -129,7 +129,7 @@ QuokkaJS is licensed under the [MIT License](https://github.com/UmutAkturk14/Qu
 
 ## **Contact**
 
-For questions or feedback, please open an issue on [GitHub](https://github.com/your-username/quokka-js/issues) or reach out to the maintainers.
+For questions or feedback, please open an issue on [GitHub](https://github.com/UmutAkturk14/QuokkaJS/issues) or reach out to the maintainers.
 
 ---
 
