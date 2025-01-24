@@ -92,17 +92,17 @@ We welcome contributions from the community! If you'd like to contribute to Quok
 1. Fork the repository.
 
 2. Create a new branch for your feature or bugfix:
-  ```bash
-	git checkout -b feature/your-feature-name
-	```
+```bash
+git checkout -b feature/your-feature-name
+```
 3. Commit your changes:
-	```bash
-	git commit -m "Add your feature"
-	```
+```bash
+git commit -m "Add your feature"
+```
 4. Push your branch:
-  ```bash
-	git push origin feature/feature-name
-	```
+```bash
+git push origin feature/feature-name
+```
 5. Open a pull request and describe your changes.
 
 
