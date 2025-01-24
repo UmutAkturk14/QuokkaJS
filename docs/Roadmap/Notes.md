@@ -8,4 +8,4 @@
 [IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
 
 [**jQuery Docs**](https://api.jquery.com/)
-[**Coding standards**](https://github.com/UmutAkturk14/QuokkaJS/tree/planning/roadmap/docs)
+[**Coding standards**](https://github.com/UmutAkturk14/QuokkaJS/blob/planning/roadmap/docs/TypeScript%20Style%20Guide.md)
