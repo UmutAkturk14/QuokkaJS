@@ -1,0 +1,4 @@
+.obsidian/
+node_modules
+.env
+dist/*
