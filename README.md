@@ -62,6 +62,7 @@ cd QuokkaJS
 ```bash
 npm install
 ```
+
 ### **3. Install ESLint**
 
 The project uses ESLint to enforce coding standards. Make sure that you're able to use it. ESLint extension use is advised.
@@ -91,17 +92,17 @@ We welcome contributions from the community! If you'd like to contribute to Quok
 1. Fork the repository.
 
 2. Create a new branch for your feature or bugfix:
-  ```bash
-	git checkout -b feature/your-feature-name
-	```
+```bash
+git checkout -b feature/your-feature-name
+```
 3. Commit your changes:
-	```bash
-	git commit -m "Add your feature"
-	```
+```bash
+git commit -m "Add your feature"
+```
 4. Push your branch:
-  ```bash
-	git push origin feature/feature-name
-	```
+```bash
+git push origin feature/feature-name
+```
 5. Open a pull request and describe your changes.
 
 
@@ -128,7 +129,7 @@ QuokkaJS is licensed under the [MIT License](https://github.com/UmutAkturk14/Qu
 
 ## **Contact**
 
-For questions or feedback, please open an issue on [GitHub](https://github.com/your-username/quokka-js/issues) or reach out to the maintainers.
+For questions or feedback, please open an issue on [GitHub](https://github.com/UmutAkturk14/QuokkaJS/issues) or reach out to the maintainers.
 
 ---
 
