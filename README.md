@@ -93,7 +93,7 @@ We welcome contributions from the community! If you'd like to contribute to Quok
 
 2. Create a new branch for your feature or bugfix:
 ```bash
-git checkout -b feature/your-feature-name
+git switch -c feature/your-feature-name
 ```
 3. Commit your changes:
 ```bash
