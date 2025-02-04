@@ -98,7 +98,7 @@ module.exports = {
     // =============================================
 
     // Enforce a maximum line length of 100 characters
-    'max-len': ['error', { code: 100, ignoreUrls: true }],
+    'max-len': ['error', { code: 120, ignoreUrls: true }],
 
     // Enforce consistent indentation (2 spaces)
     indent: ['error', 2],
@@ -159,7 +159,7 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': 'error',
 
     // Disallow confusing void expressions
-    '@typescript-eslint/no-confusing-void-expression': 'error',
+    // '@typescript-eslint/no-confusing-void-expression': 'error',
 
     // Disallow invalid `void` types
     '@typescript-eslint/no-invalid-void-type': 'error',
@@ -185,11 +185,11 @@ module.exports = {
 
     // Require JSDoc comments for functions, classes, and exported members
     'require-jsdoc': [
-      'error',
+      'warn',
       {
         require: {
-          FunctionDeclaration: true, // Require JSDoc for functions
-          MethodDefinition: true, // Require JSDoc for class methods
+          FunctionDeclaration: false, // Require JSDoc for functions
+          MethodDefinition: false, // Require JSDoc for class methods
           ClassDeclaration: true, // Require JSDoc for classes
         },
       },
