@@ -7,9 +7,11 @@
     "test": "vitest"
   },
   "devDependencies": {
+    "@types/jsdom": "^21.1.7",
     "@typescript-eslint/eslint-plugin": "^8.21.0",
     "@typescript-eslint/parser": "^8.21.0",
     "eslint": "^8.57.1",
+    "jsdom": "^26.0.0",
     "vitest": "^3.0.5"
   }
 }

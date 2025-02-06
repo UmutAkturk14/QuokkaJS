@@ -2,13 +2,31 @@
  * Core functionality of the library.
  */
 class Core {
+  [index: number]: HTMLElement;
   private elements: HTMLElement[];
 
-  constructor(selector: string | HTMLElement | HTMLElement[]) {
+  constructor(selector: string | HTMLElement | HTMLElement[], attributes?: Record<string, string>) {
     try {
       if (typeof selector === "string") {
-        // Attempt to select elements
-        this.elements = Array.from(document.querySelectorAll(selector));
+        const tagMatch = selector.match(/^<(\w+)>$/);
+
+        if (tagMatch) {
+          const newElement = document.createElement(tagMatch[1]);
+
+          if (attributes) {
+            Object.entries(attributes).forEach(([key, value]) => {
+              if (key === "text") {
+                newElement.textContent = value;
+              } else {
+                newElement.setAttribute(key, value);
+              }
+            });
+          }
+
+          this.elements = [newElement];
+        } else {
+          this.elements = Array.from(document.querySelectorAll(selector));
+        }
       } else if (selector instanceof HTMLElement) {
         this.elements = [selector];
       } else {
@@ -19,41 +37,50 @@ class Core {
         throw new Error("No elements found for the given selector.");
       }
     } catch (error) {
-      // console.error("Error in selector processing:", error);
-      this.elements = []; // Set to empty array if there's an error
-      // new Error ("This is not a valid selector")
+      this.elements = [];
     }
+
+    // Ensure that `this` acts as an array-like object
+    if(this.elements.length > 1) {
+      this.elements.forEach((el: HTMLElement, index: number) => {
+        this[index] = el; // Assign each element to `this` (acting as an array)
+      });
+    }
+
+    // Define the length property to make it read-only
+    Object.defineProperty(this, "length", {
+      value: this.elements.length,
+      writable: false, // Makes length read-only
+      enumerable: false, // Keeps it from appearing in `for...in`
+    });
   }
+
+
 
   // Iterate over elements
   each(callback: (el: HTMLElement, index: number) => void): this {
-    this.elements.forEach((el: HTMLElement, index: number) => callback(el, index));
-    return this; // Enables chaining
+    this.elements.forEach(callback);
+    return this;
   }
 
   // Map elements to a new array
   map<T>(callback: (el: HTMLElement, index: number) => T): T[] {
-    return this.elements.map((el: HTMLElement, index: number) => callback(el, index));
+    return this.elements.map(callback);
   }
 
   // Filter elements based on a condition
   filter(callback: (el: HTMLElement, index: number) => boolean): Core {
-    const filteredElements: HTMLElement[] = this.elements.filter((el: HTMLElement, index: number) => {
-      return callback(el, index)
-    });
-    return new Core(filteredElements); // Return a new instance with filtered elements
+    return new Core(this.elements.filter(callback));
   }
 
   // Get the first element
   first(): Core {
-    this.elements = [this.elements[0]]; // Only set the first element
-    return this; // Return the Core instance for chaining
+    return new Core(this.elements[0] ? [this.elements[0]] : []);
   }
 
   // Get the last element
   last(): Core {
-    this.elements = [this.elements[this.elements.length - 1]]; // Only set the last element
-    return this; // Return the Core instance for chaining
+    return new Core(this.elements.length ? [this.elements[this.elements.length - 1]] : []);
   }
 
   // Length of the selected elements
@@ -79,7 +106,7 @@ class Core {
 
   // Remove elements from the selection
   remove(elements: HTMLElement[]): this {
-    this.elements = this.elements.filter((el: HTMLElement) => !elements.includes(el));
+    this.elements = this.elements.filter((el) => !elements.includes(el));
     return this;
   }
 
@@ -88,14 +115,14 @@ class Core {
     if (value === undefined) {
       return this.elements[0]?.getAttribute(name) ?? "";
     }
-    this.elements.forEach((el: HTMLElement) => el.setAttribute(name, value));
+    this.elements.forEach((el) => el.setAttribute(name, value));
     return this;
   }
 }
 
 // Exporting a function similar to `jQuery()`
-export function $(selector: string | HTMLElement | HTMLElement[]): Core {
-  return new Core(selector);
+export function $(selector: string | HTMLElement | HTMLElement[], attributes?: Record<string, string>): Core {
+  return new Core(selector, attributes);
 }
 
 export default Core;
