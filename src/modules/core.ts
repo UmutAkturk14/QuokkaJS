@@ -55,7 +55,10 @@ class Core {
     });
   }
 
+  // Get data
+  data(): void{
 
+  }
 
   // Iterate over elements
   each(callback: (el: HTMLElement, index: number) => void): this {
@@ -117,6 +120,10 @@ class Core {
     }
     this.elements.forEach((el) => el.setAttribute(name, value));
     return this;
+  }
+
+  text(): string {
+    return this.elements[0]?.textContent?? "";
   }
 }
 

@@ -1,11 +1,10 @@
 import { describe, expect, beforeEach, test } from "vitest";
 import { JSDOM } from "jsdom";
-import Core, { $ } from "../src/modules/core";
+import { $ } from "../src/modules/core";
+import { createElement } from "./helpers/utils";
 
 describe("Core Library", () => {
   let document: Document;
-  let mockElement: HTMLElement;
-  let coreInstance: Core;
 
   beforeEach(() => {
     // Create a new JSDOM instance for each test
@@ -13,29 +12,60 @@ describe("Core Library", () => {
     document = dom.window.document;
     global.document = document; // Make document globally available
 
-    // Create and append mock element
-    // mockElement = document.createElement("div");
-    // mockElement.setAttribute("id", "test");
-    // mockElement.setAttribute("data-test", "value");
-    // document.body.appendChild(mockElement);
+    // Create elements to test different selectors
+    const singleElement: HTMLElement = createElement("div", { id: "test" }, { test: "value" });
+    const classElement1: HTMLElement = createElement("div", { className: "test-class" });
+    const classElement2: HTMLElement = createElement("div", { className: "test-class" });
 
-    // Initialize core instance with the added element
-    // coreInstance = new Core('#test');
+    const parentElement: HTMLElement = createElement("div", { id: "parent" });
+    const firstChild: HTMLElement = createElement("span", { className: "child", textContent: "First" });
+    const middleChild: HTMLElement = createElement("span", { className: "child", textContent: "Middle" });
+    const lastChild: HTMLElement = createElement("span", { className: "child", textContent: "Last" });
+
+    // Append elements to the document body
+    document.body.appendChild(singleElement);
+    document.body.appendChild(classElement1);
+    document.body.appendChild(classElement2);
+
+    parentElement.appendChild(firstChild);
+    parentElement.appendChild(middleChild);
+    parentElement.appendChild(lastChild);
+    document.body.appendChild(parentElement);
   });
 
-
-  test.todo('Main function: $')
   describe('Main function: $', () => {
     test('type of $ should be a function', () => {
       expect(typeof $).toBe('function');
     });
 
-    test('core instance to have the data', () => {
-      expect($(document).exists()).toBe(true);
+    test('should be able to work with tag selectors', () => {
+      expect($('div').exists()).toBe(true);
+      expect($('option').exists()).toBe(false);
+    });
+
+    test('should be able to work with id selector', () => {
+      expect($('#test').exists()).toBe(true);
+      expect($('#test').length).toBe(1);
     })
 
-    test('should be able to add a class', () => {
+    test('should be able to work with class selector', () => {
+      expect($('.test-class').exists()).toBe(true);
+      expect($('.test-class').length).toBe(2);
     })
+
+    describe('should be able to work with pseudo selectors', () => {
+      test('should be able to work with :first-child', () => {
+        expect($('div#parent').exists()).toBe(true);
+        expect($('div#parent :first-child').exists()).toBe(true);
+        expect($('.child:first-child').text()).toBe('First');
+      });
+
+      test('should be able to work with :last-child', () => {
+        expect($('.child:last-child').text()).toBe('Last');
+      })
+    });
+
+    test.todo('ADDITIONAL PSEUDO SELECTORS')
   });
 
 
@@ -52,6 +82,12 @@ describe("Core Library", () => {
   test.todo('Function: Attr')
   test.todo('Function: Data')
   test.todo('Function: Text')
+  describe('Function: Text', () => {
+    test('text() should be a function', () => {
+      expect(typeof $('div').text).toBe('function');
+    })
+  })
+
   test.todo('Function: Html')
   test.todo('Function: Val')
 });
