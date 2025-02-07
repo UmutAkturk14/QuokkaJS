@@ -109,7 +109,7 @@ class Core {
 
   // Remove elements from the selection
   remove(elements: HTMLElement[]): this {
-    this.elements = this.elements.filter((el) => !elements.includes(el));
+    this.elements = this.elements.filter((el: HTMLElement) => !elements.includes(el));
     return this;
   }
 
@@ -118,12 +118,20 @@ class Core {
     if (value === undefined) {
       return this.elements[0]?.getAttribute(name) ?? "";
     }
-    this.elements.forEach((el) => el.setAttribute(name, value));
+    this.elements.forEach((el: HTMLElement) => el.setAttribute(name, value));
     return this;
   }
 
   text(): string {
     return this.elements[0]?.textContent?? "";
+  }
+
+  html(): string {
+    return this.elements[0]?.innerHTML?? "";
+  }
+
+  val(): string {
+    return this.elements[0]?.getAttribute("value")?? "";
   }
 }
 
