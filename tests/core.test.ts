@@ -129,7 +129,6 @@ describe("Core Library", () => {
 
   });
 
-
   describe('Function: map()', () => {
     test('map() should be a function', () => {
       expect(typeof $('div').map).toBe('function')

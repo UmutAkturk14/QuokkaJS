@@ -129,6 +129,9 @@ module.exports = {
     // Prefer optional chaining over nested ternary or logical checks
     '@typescript-eslint/prefer-optional-chain': 'error',
 
+    // Use @ts-expect-error when an error is expected
+    "@typescript-eslint/ban-ts-comment": "error",
+
     // =============================================
     // TypeScript-Specific
     // =============================================
