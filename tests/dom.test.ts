@@ -37,5 +37,5 @@ describe("Core Library", () => {
   test.todo('Function: Hide')
   test.todo('Function: Toggle')
   test.todo('Function: hasClass')
-  test.todo('Function: ')
+  test.todo('Function: removeClass')
 });
