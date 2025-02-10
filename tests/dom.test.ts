@@ -1,32 +1,34 @@
 import { describe, it, expect, beforeEach, test } from "vitest";
 import { JSDOM } from "jsdom";
 import Core, { $ } from "../src/modules/core";
+import { createElement } from "./helpers/utils"
 
-describe("Core Library", () => {
-  let document: Document;
-  let mockElement: HTMLElement;
-  let coreInstance: Core;
+describe("DOM Module", () => {
+  beforeEach(() => {
+    // Create a new JSDOM instance for each test
+    const dom: JSDOM = new JSDOM(`<!DOCTYPE html><html><body></body></html>`)
+    global.document = dom.window.document
 
-  // beforeEach(() => {
-  //   // Create a new JSDOM instance for each test
-  //   const dom = new JSDOM(`<!DOCTYPE html><html><body></body></html>`);
-  //   document = dom.window.document; // Get the document
+    // Create elements to test different selectors
+    const singleElement: HTMLElement = createElement("div", { id: "test" }, { test: "value", test2: "value2" })
+    const classElement1: HTMLElement = createElement("div", { className: "test-class" })
+    const classElement2: HTMLElement = createElement("div", { className: "test-class" })
 
-  //   // Create a mock element dynamically
-  //   mockElement = document.createElement("div");
-  //   mockElement.setAttribute("id", "test");
-  //   mockElement.setAttribute("data-test", "value");
-  //   document.body.appendChild(mockElement);
+    const parentElement: HTMLElement = createElement("div", { id: "parent" })
+    const firstChild: HTMLElement = createElement("span", { className: "child", textContent: "First" })
+    const middleChild: HTMLElement = createElement("span", { className: "child", textContent: "Middle" })
+    const lastChild: HTMLElement = createElement("span", { className: "child", textContent: "Last" })
 
-  //   // Instantiate Core with the mock element
-  //   coreInstance = new Core(mockElement);
-  // });
+    // Append elements to the document body
+    document.body.appendChild(singleElement)
+    document.body.appendChild(classElement1)
+    document.body.appendChild(classElement2)
 
-  // it("should select an element by string selector", () => {
-  //   const instance = new Core("#test");
-  //   expect(instance.exists()).toBe(true);
-  //   expect(instance.length()).toBe(1);
-  // });
+    parentElement.appendChild(firstChild)
+    parentElement.appendChild(middleChild)
+    parentElement.appendChild(lastChild)
+    document.body.appendChild(parentElement)
+  })
 
   test.todo('Function: Append')
   test.todo('Function: Prepend')
@@ -36,6 +38,9 @@ describe("Core Library", () => {
   test.todo('Function: Show')
   test.todo('Function: Hide')
   test.todo('Function: Toggle')
-  test.todo('Function: hasClass')
-  test.todo('Function: removeClass')
+  test.todo('Function: hasClass()')
+  test.todo('Function: removeClass()')
+  test.todo('Function: text()')
+  test.todo('Function: html()')
+  test.todo('Function: val()')
 });

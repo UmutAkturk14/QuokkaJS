@@ -4,7 +4,6 @@ import Core, { $ } from "../src/modules/core"
 import { createElement } from "./helpers/utils"
 
 describe("Core Module", () => {
-
   beforeEach(() => {
     // Create a new JSDOM instance for each test
     const dom: JSDOM = new JSDOM(`<!DOCTYPE html><html><body></body></html>`)
