@@ -41,7 +41,7 @@ class Core {
     }
 
     // Ensure that `this` acts as an array-like object
-    if(this.elements.length > 1) {
+    if(this.elements.length > 0) {
       this.elements.forEach((el: HTMLElement, index: number) => {
         this[index] = el; // Assign each element to `this` (acting as an array)
       });
