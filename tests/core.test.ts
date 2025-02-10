@@ -372,13 +372,6 @@ describe("Core Module", () => {
       const $divs: Core = $('div');
       const updatedDivs: Core = $divs.remove($divs.get(0));
 
-      console.debug('Initial divs length:', $divs.length);
-      console.debug('Updated divs length:', updatedDivs.length);
-      console.debug('Removed elements length:', $divs.get(0).length)
-
-      console.debug('$divs length:', $divs.length)
-      console.debug('updated divs length:', updatedDivs.length)
-
       expect(updatedDivs.length).toBe($divs.length - 1); // Length should decrease
       expect(updatedDivs[0]).not.toBe($divs[0]); // The first div should no longer be the same
     });
