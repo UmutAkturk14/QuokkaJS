@@ -32,7 +32,7 @@ describe("DOM Module", () => {
   })
 
   test('Extension of core module', () => {
-    expect(typeof $).toBe("function")
+    expect($).toBeInstanceOf(Function)
   })
 
   test('Function: $', () => {

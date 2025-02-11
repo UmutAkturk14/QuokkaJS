@@ -1,4 +1,4 @@
-import Core, { $ } from "./core";
+import Core from "./core";
 
 /**
  * DOM module - Extends Core with DOM manipulation functions
