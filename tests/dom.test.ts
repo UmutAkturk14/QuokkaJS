@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, test } from "vitest";
 import { JSDOM } from "jsdom";
-import Core, { $ } from "../src/modules/core";
+import Core, { $ } from "../src/modules/dom";
+
 import { createElement } from "./helpers/utils"
 
 describe("DOM Module", () => {
@@ -28,6 +29,18 @@ describe("DOM Module", () => {
     parentElement.appendChild(middleChild)
     parentElement.appendChild(lastChild)
     document.body.appendChild(parentElement)
+  })
+
+  test('Extension of core module', () => {
+    expect(typeof $).toBe("function")
+  })
+
+  test('Function: $', () => {
+    const $divs: Core = $('div');
+
+    expect($divs).toBeInstanceOf(Core)
+    expect($divs.length).toBe(4)
+    expect($divs.addClass).toBeInstanceOf(Function)
   })
 
   test.todo('Function: Append')
