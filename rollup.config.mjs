@@ -1,11 +1,11 @@
 import typescript from '@rollup/plugin-typescript';
 
 export default {
-  input: 'src/main.ts',  // Entry file
+  input: 'src/main.ts',
   output: {
-    file: 'dist/main.js', // Compiled output file
-    format: 'iife',       // IIFE format for direct browser usage
-    name: '$',            // Exposes your library as a global `$` (like jQuery)
+    file: 'dist/main.js',
+    format: 'iife',
+    name: '$',
     sourcemap: true
   },
   plugins: [typescript()]
