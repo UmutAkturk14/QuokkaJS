@@ -1,34 +1,11 @@
 import { describe, expect, beforeEach, test } from "vitest"
 import { JSDOM } from "jsdom"
 import Core, { $ } from "../src/modules/core"
-import { createElement } from "./helpers/utils"
+import { basicChecks, setDOM } from "./helpers/utils"
 
 describe("Core Module", () => {
-  beforeEach(() => {
-    // Create a new JSDOM instance for each test
-    const dom: JSDOM = new JSDOM(`<!DOCTYPE html><html><body></body></html>`)
-    global.document = dom.window.document
-
-    // Create elements to test different selectors
-    const singleElement: HTMLElement = createElement("div", { id: "test" }, { test: "value", test2: "value2" })
-    const classElement1: HTMLElement = createElement("div", { className: "test-class" })
-    const classElement2: HTMLElement = createElement("div", { className: "test-class" })
-
-    const parentElement: HTMLElement = createElement("div", { id: "parent" })
-    const firstChild: HTMLElement = createElement("span", { className: "child", textContent: "First" })
-    const middleChild: HTMLElement = createElement("span", { className: "child", textContent: "Middle" })
-    const lastChild: HTMLElement = createElement("span", { className: "child", textContent: "Last" })
-
-    // Append elements to the document body
-    document.body.appendChild(singleElement)
-    document.body.appendChild(classElement1)
-    document.body.appendChild(classElement2)
-
-    parentElement.appendChild(firstChild)
-    parentElement.appendChild(middleChild)
-    parentElement.appendChild(lastChild)
-    document.body.appendChild(parentElement)
-  })
+  basicChecks();
+  beforeEach(setDOM)
 
   describe('Main function: $', () => {
     test('type of $ should be a function', () => {

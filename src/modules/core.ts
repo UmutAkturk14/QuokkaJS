@@ -3,7 +3,7 @@
  */
 class Core {
   [index: number]: HTMLElement;
-  private elements: HTMLElement[];
+  elements: HTMLElement[];
 
   constructor(selector: string | HTMLElement | HTMLElement[], attributes?: Record<string, string>) {
     try {
@@ -105,23 +105,13 @@ class Core {
   }
 
 
-  get(index: number): Core {
-    // Retrieve the element at the specified index
-    const element: HTMLElement = this.elements[index];
-
-    // Create a new Core instance with just the selected element
-    const result: Core = new Core([element]);
-
-    // Mimic the jQuery array-like behavior directly on the result
-    if (element !== undefined) {
-      result[0] = element; // Assign the element to the first index
+  get(index: number, core: boolean = false): HTMLElement | Core | undefined {
+    if (core) {
+      return $(this.elements[index]);
     }
-
-    // Ensure the result acts like a jQuery object (array-like structure)
-    Object.assign(result, [element]); // Mimic array-like structure
-
-    return result;
+    return this.elements[index]
   }
+
 
   // Iterate over elements
   each(callback: (el: HTMLElement, index: number) => void): this {
