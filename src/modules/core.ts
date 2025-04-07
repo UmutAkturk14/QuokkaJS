@@ -161,31 +161,23 @@ class Core {
   }
 
   // Remove elements from the selection
-  remove(selector: string | Core): Core {
-    const elementsToRemove: HTMLElement[] = selector instanceof Core
-      ? selector.elements
-      : Array.from(document.querySelectorAll(selector));
+  remove(): this {
+    this.each((el: HTMLElement) => {
+      el.remove(); // This actually removes the element from the DOM
+    });
 
-    // Filter out the elements that are in the elementsToRemove array
-    const updatedElements: HTMLElement[] = this.elements.filter(
-      (el: HTMLElement) => !Array.from(elementsToRemove).includes(el)
-    );
+    return this; // Like jQuery, return the same object to allow chaining
+  }
 
-    // Create a new Core instance
-    const result: Core = new Core(updatedElements);
-
-    // Mimic jQuery's array-like behavior directly on the instance
-    if (updatedElements.length > 1) {
-      updatedElements.forEach((el: HTMLElement, index: number) => {
-        result[index] = el;  // Assign each element directly to `result`
-      });
+  removeChild(index: number): this {
+    if (index < 0 || index >= this.elements.length) {
+      throw new Error("Invalid index");
     }
 
-    // Ensure the result acts like a jQuery object
-    Object.assign(result, updatedElements); // Make the instance act like an array
-
-    return result;
+    this.elements[index].remove();
+    return this;
   }
+
 
   // Get or set an attribute
   attr(name: string, value?: string): this | string {
@@ -193,6 +185,11 @@ class Core {
       return this.elements[0]?.getAttribute(name) ?? "";
     }
     this.elements.forEach((el: HTMLElement) => el.setAttribute(name, value));
+    return this;
+  }
+
+  removeAttr(name: string): this {
+    this.elements.forEach ((el: HTMLElement) => el.removeAttribute(name));
     return this;
   }
 

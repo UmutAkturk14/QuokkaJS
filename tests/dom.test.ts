@@ -20,28 +20,49 @@ describe("DOM Module", () => {
   })
 
   test('Function: Append', () => {
-    // Select the parent element and append a new child element
     const newChild: HTMLElement = createElement("span", { className: "new-child", textContent: "New Child" });
-    const parent: Core = $('#parent'); // Use the $ selector to get the parent element
-    parent.append(newChild); // Append the new child to the parent
+    $('#parent').append(newChild);
 
-    // Optionally, check the new child's content and class
-    expect(newChild.textContent).toBe("New Child");
+    const $newChild: Core = $('.new-child');
+    const $parentDiv: Core = $('#parent');
+
+    console.log($newChild.elements[0].outerHTML)
+
+    expect($newChild).toBeInstanceOf(Core);
+    expect($newChild.length).toBe(1);
+    expect($newChild.elements[0].textContent).toBe("New Child");
     expect(newChild.className).toBe("new-child");
+    expect($parentDiv.elements[0].lastElementChild).toBe($newChild.elements[0]);
   });
 
 
-  // test('Function: Prepend', () => {
-  //   expect(false).toBe(true);
-  // })
+  test('Function: Prepend', () => {
+    expect(false).toBe(true);
+  })
 
-  // test('Function: Before', () => {
-  //   expect(false).toBe(true);
-  // })
+  test('Function: Before', () => {
+    const newChild: HTMLElement = createElement("span", { className: "new-child", textContent: "New Child" });
+    const $secondChild: Core = $('#parent').children().eq(1);
+    $secondChild.before(newChild);
 
-  // test('Function: After', () => {
-  //   expect(false).toBe(true);
-  // })
+    const $newChild: Core = $('.new-child');
+    const $parentDiv: Core = $('#parent');
+
+    console.log($newChild.elements[0].outerHTML);
+
+    expect($newChild).toBeInstanceOf(Core);
+    expect($newChild.length).toBe(1);
+    expect($newChild.elements[0].textContent).toBe("New Child");
+    expect(newChild.className).toBe("new-child");
+
+    // Ensure the new child is before the second child of the parent
+    expect($parentDiv.elements[0].children[1]).toBe($newChild.elements[0]);
+  });
+
+
+  test('Function: After', () => {
+    expect(false).toBe(true);
+  })
 
   // test('Function: Remove', () => {
   //   expect(false).toBe(true);

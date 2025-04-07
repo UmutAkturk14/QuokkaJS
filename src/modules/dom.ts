@@ -27,12 +27,60 @@ class DOM extends Core {
     return this.elements.some((el: HTMLElement) => el.classList.contains(className));
   }
 
-  children(): Core {
+  children(): DOM {
     const childElements: Element[] = this.elements.flatMap((el: HTMLElement) => Array.from(el.children));
-    return new DOM(childElements as HTMLElement[]);
+    return new DOM(childElements);
   }
 
-  insertAt(
+  eq(index: number): DOM {
+    if (index < 0) {
+      index = this.elements.length + index;
+    }
+
+    const element: HTMLElement = this.elements[index];
+
+    return $([element]);
+  }
+
+  // Individual methods for clarity
+  prepend(child: string | HTMLElement | Core): this {
+    return this.insertAt(child, 'prepend');
+  }
+
+  before(child: string | HTMLElement | Core): this {
+    return this.insertAt(child, 'before');
+  }
+
+  after(child: string | HTMLElement | Core): this {
+    return this.insertAt(child, 'after');
+  }
+
+  append(child: string | HTMLElement | Core): this {
+    return this.insertAt(child, 'append');
+  }
+
+  replace(child: string | HTMLElement | Core): this {
+    return this.insertAt(child, 'replace');
+  }
+
+  focus(): this {
+    return this._applyMethod('focus');
+  }
+
+  click(): this {
+    return this._applyMethod('click');
+  }
+
+  blur(): this {
+    return this._applyMethod('blur');
+  }
+
+  private _applyMethod(method: 'focus' | 'click' | 'blur'): this {
+    this.each((el: HTMLElement) => el[method]());
+    return this;
+  }
+
+  private insertAt(
     child: string | HTMLElement | Core,
     position: 'append' | 'prepend' | 'before' | 'after' | 'replace'
   ): this {
@@ -102,28 +150,6 @@ class DOM extends Core {
 
     return this;
   }
-
-  // Individual methods for clarity
-  prepend(child: string | HTMLElement | Core): this {
-    return this.insertAt(child, 'prepend');
-  }
-
-  before(child: string | HTMLElement | Core): this {
-    return this.insertAt(child, 'before');
-  }
-
-  after(child: string | HTMLElement | Core): this {
-    return this.insertAt(child, 'after');
-  }
-
-  append(child: string | HTMLElement | Core): this {
-    return this.insertAt(child, 'append');
-  }
-
-  replace(child: string | HTMLElement | Core): this {
-    return this.insertAt(child, 'replace');
-  }
-
 }
 
 /**

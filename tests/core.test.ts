@@ -340,43 +340,24 @@ describe("Core Module", () => {
 
     test('remove() should return a Core instance', () => {
       const $divs: Core = $('div');
-      const updatedDivs: Core = $divs.remove('div');
+      const updatedDivs: Core = $divs.remove();
 
       expect(updatedDivs).toBeInstanceOf(Core);
     });
 
     test('remove() should remove the specified elements from the selection', () => {
       const $divs: Core = $('div');
-      const updatedDivs: Core = $divs.remove($divs.get(0));
+      $divs.remove();
 
-      expect(updatedDivs.length).toBe($divs.length - 1); // Length should decrease
-      expect(updatedDivs[0]).not.toBe($divs[0]); // The first div should no longer be the same
-    });
-
-    test('remove() should return the same selection if no elements match the selector', () => {
-      const $divs: Core = $('div');
-
-      const updatedDivs: Core = $divs.remove('non-existent-selector'); // Remove non-existing elements
-
-      expect(updatedDivs.length).toBe($divs.length); // Length should remain unchanged
-      expect(updatedDivs[0]).toBe($divs[0]); // The first div should be the same
+      expect($('div').length).toBe(0);
     });
 
     test('remove() should return an empty selection when all elements are removed', () => {
       const $divs: Core = $('div');
-      const updatedDivs: Core = $divs.remove($divs); // Remove all divs
+      $divs.remove();
 
-      expect(updatedDivs.length).toBe(0); // The selection should be empty
-    });
-
-    test('remove() should behave as expected when using a Core instance as a selector', () => {
-      const $divs: Core = $('div');
-      const divToRemove: Core = $('div').first(); // Selecting the first div
-
-      const updatedDivs: Core = $divs.remove(divToRemove);
-
-      expect(updatedDivs.length).toBe($divs.length - 1); // Length should decrease
-      expect(updatedDivs[0]).not.toBe(divToRemove[0]); // The first div should no longer be the removed one
+      expect($('div').length).toBe(0);
+      expect($('div')).toBeInstanceOf(Core);
     });
   });
 
@@ -386,13 +367,10 @@ describe("Core Module", () => {
     });
 
     test('attr() should return the correct attribute value when getting an attribute', () => {
-      const $divs: Core = $('div');
-      const div: Core = $divs.get(0);
-      div.attr('data-test', 'test-value');
+      const $test: Core = $('#test');
 
-      const attrValue: string | Core = $divs.attr('data-test');
-
-      expect(attrValue).toBe('test-value'); // Expect the correct attribute value
+      expect($test.attr('data-test')).toBe('value');
+      expect($test.attr('data-test2')).toBe('value2');
     });
 
     test('attr() should return an empty string when the attribute is not present', () => {
@@ -417,6 +395,22 @@ describe("Core Module", () => {
       });
     });
   });
+
+  describe('Function: removeAttr()', () => {
+    test('removeAttr() should be a function', () => {
+      expect(typeof $('div').removeAttr).toBe('function');
+    })
+
+    test('removeAttr() should remove the specified attribute', () => {
+      const $div: Core = $('#test');
+
+      expect($div.attr('data-test')).toBe('value');
+
+      $div.removeAttr('data-test');
+
+      expect($div.attr('data-test')).toBe('');
+    })
+  })
 
   describe('Function: data()', () => {
     test('data() should be a function', () => {
@@ -541,7 +535,6 @@ describe("Core Module", () => {
 
   });
 
-
   describe('Function: html()', () => {
     test('html() should be a function', () => {
       expect(typeof $('div').html).toBe('function')
@@ -557,6 +550,18 @@ describe("Core Module", () => {
   describe('Function: get()', () => {
     test('get() should be a function', () =>{
       expect(typeof $('div').get).toBe('function')
+    })
+
+    test('get() should return the correct element at the specified index', () => {
+
+    })
+
+    test('get() should return a HTML element', () => {
+
+    })
+
+    test('get() should return a Core instance when "true" parameter is added', () => {
+
     })
   })
 
