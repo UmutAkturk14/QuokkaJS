@@ -49,6 +49,7 @@ export function setDOM(): {
   const firstChild: HTMLElement = createElement("span", { className: "child", textContent: "First" });
   const middleChild: HTMLElement = createElement("span", { className: "child", textContent: "Middle" });
   const lastChild: HTMLElement = createElement("span", { className: "child", textContent: "Last" });
+  const anotherElement: HTMLElement = createElement("span", { className: "test-child", textContent: "TestValue" });
 
   // Append elements
   document.body.appendChild(singleElement);
@@ -59,6 +60,7 @@ export function setDOM(): {
   parentElement.appendChild(middleChild);
   parentElement.appendChild(lastChild);
   document.body.appendChild(parentElement);
+  document.body.appendChild(anotherElement);
 
   return {
     dom,

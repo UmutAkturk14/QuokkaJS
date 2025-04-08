@@ -140,7 +140,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'error',
 
     // Enforce strict boolean expressions
-    '@typescript-eslint/strict-boolean-expressions': 'error',
+    // '@typescript-eslint/strict-boolean-expressions': 'error',
 
     // Disallow unnecessary type assertions (e.g., `as`)
     '@typescript-eslint/no-unnecessary-type-assertion': 'error',

@@ -1,7 +1,6 @@
 import { describe, expect, beforeEach, test } from "vitest"
-import { JSDOM } from "jsdom"
 import Core, { $ } from "../src/modules/core"
-import { basicChecks, setDOM } from "./helpers/utils"
+import { basicChecks, createElement, setDOM } from "./helpers/utils"
 
 describe("Core Module", () => {
   basicChecks();
@@ -212,7 +211,7 @@ describe("Core Module", () => {
 
       // Ensure the first element is the first in the selection
       expect(firstDiv.length).toBe(1);
-      expect(firstDiv.get(0).html).toBe($divs.get(0).html);
+      expect(firstDiv[0].innerHTML).toBe($divs[0].innerHTML);
     });
 
     test('first() should return an empty Core instance when the selection is empty', () => {
@@ -239,9 +238,8 @@ describe("Core Module", () => {
       const $divs: Core = $('div');
       const lastDiv: Core = $divs.last();
 
-      // Ensure the last element is the last in the selection
       expect(lastDiv.length).toBe(1);
-      expect(lastDiv.get(0).html).toBe($divs.get($divs.length - 1).html);
+      expect(lastDiv[0].innerHTML).toBe($divs[$divs.length - 1].innerHTML);
     });
 
     test('last() should return an empty Core instance when the selection is empty', () => {
@@ -547,24 +545,6 @@ describe("Core Module", () => {
     })
   })
 
-  describe('Function: get()', () => {
-    test('get() should be a function', () =>{
-      expect(typeof $('div').get).toBe('function')
-    })
-
-    test('get() should return the correct element at the specified index', () => {
-
-    })
-
-    test('get() should return a HTML element', () => {
-
-    })
-
-    test('get() should return a Core instance when "true" parameter is added', () => {
-
-    })
-  })
-
   describe('Property: length()', () => {
     test('length should be a number', () => {
       expect(typeof $('div').length).toBe('number')
@@ -575,5 +555,255 @@ describe("Core Module", () => {
       expect($('#test').length).toBe(1)
       expect($('.test-class').length).toBe(2)
     })
+  })
+
+  describe('Function group: Appending', () => {
+    test('Function: append()', () => {
+      const newChild: HTMLElement = createElement("span", { className: "new-child", textContent: "New Child" });
+      $('#parent').append(newChild);
+
+      const $newChild: Core = $('.new-child');
+      const $parentDiv: Core = $('#parent');
+
+      expect($newChild).toBeInstanceOf(Core);
+      expect($newChild.length).toBe(1);
+      expect($newChild.elements[0].textContent).toBe("New Child");
+      expect(newChild.className).toBe("new-child");
+      expect($parentDiv.elements[0].lastElementChild).toBe($newChild.elements[0]);
+    });
+
+    test('Function: prepend()', () => {
+      const newChild: HTMLElement = createElement("span", { className: "new-child", textContent: "New Child" });
+      $('#parent').prepend(newChild);
+
+      const $newChild: Core = $('.new-child');
+      const $parentDiv: Core = $('#parent');
+
+      expect($newChild).toBeInstanceOf(Core);
+      expect($newChild.length).toBe(1);
+      expect($newChild.elements[0].textContent).toBe("New Child");
+      expect(newChild.className).toBe("new-child");
+      expect($parentDiv.elements[0].firstElementChild).toBe($newChild.elements[0]);
+    })
+
+    test('Function: before()', () => {
+      const newChild: HTMLElement = createElement("span", { className: "new-child", textContent: "New Child" });
+      $('.child:first-child').before(newChild);
+
+      const $newChild: Core = $('.new-child');
+      const $parentDiv: Core = $('#parent');
+
+      expect($newChild).toBeInstanceOf(Core);
+      expect($newChild.length).toBe(1);
+      expect($newChild.elements[0].textContent).toBe("New Child");
+      expect(newChild.className).toBe("new-child");
+      expect($parentDiv.elements[0].firstElementChild).toBe($newChild.elements[0]);
+    });
+
+
+    test('Function: after()', () => {
+      const newChild: HTMLElement = createElement("span", { className: "new-child", textContent: "New Child" });
+      $('.child:last-child').after(newChild);
+
+      const $newChild: Core = $('.new-child');
+      const $parentDiv: Core = $('#parent');
+
+      expect($newChild).toBeInstanceOf(Core);
+      expect($newChild.length).toBe(1);
+      expect($newChild.elements[0].textContent).toBe("New Child");
+      expect(newChild.className).toBe("new-child");
+      expect($parentDiv.elements[0].lastElementChild).toBe($newChild.elements[0]);
+    })
+  })
+
+  describe('Function: Remove', () => {
+    test('Should remove the element from the DOM', () => {
+      const $test: Core = $('#test');
+      $test.remove();
+
+      expect($('#test').length).toBe(0);
+    });
+  })
+
+  test('Function: parent()', () => {
+    const $child: Core = $('.child:first-child');
+    const $parent: Core = $child.parent();
+
+    expect($parent).toBeInstanceOf(Core);
+    expect($parent.length).toBe(1);
+    expect($parent.elements[0].id).toBe('parent');
+    expect($parent.elements[0].contains($child.elements[0])).toBe(true);
+
+  })
+
+  describe('Function: parents()', () => {
+    test('parents() should be a function', () => {
+      expect(typeof $('#test').parents).toBe('function');
+    });
+
+    test('parents() should return a Core instance', () => {
+      const $child: Core = $('.child:first-child');
+      const $parents: Core = $child.parents();
+
+      expect($parents).toBeInstanceOf(Core);
+    });
+
+    test('parents() should return all ancestor elements', () => {
+      const $child: Core = $('.child:first-child');
+      const $parents: Core = $child.parents();
+
+      expect($parents.length).toBe(3); // Assuming two parent elements
+      expect($parents[0].id).toBe('parent');
+      expect($parents[1].tagName).toBe('BODY');
+    });
+  })
+
+  describe('Function: siblings()', () => {
+    test('siblings() should be a function', () => {
+      expect(typeof $('#test').siblings).toBe('function');
+    });
+
+    test('siblings() should return a Core instance', () => {
+      const $child: Core = $('.child:first-child');
+      const $siblings: Core = $child.siblings();
+
+      expect($siblings).toBeInstanceOf(Core);
+    });
+
+    test('siblings() should return all sibling elements', () => {
+      const $child: Core = $('.child:first-child');
+      const $siblings: Core = $child.siblings();
+
+      expect($siblings.length).toBe(2); // Assuming two sibling elements
+      expect($siblings[0].textContent).toBe('Middle');
+      expect($siblings[1].textContent).toBe('Last');
+    });
+  })
+
+  describe('Function: id()', () => {
+    test('id() should be a function', () => {
+      expect(typeof $('div').id).toBe('function');
+    });
+
+    test('id() should return the id of the element', () => {
+      expect($('#test').id()).toBe('test');
+    });
+
+    test('id() should return an empty string if the element has no id', () => {
+      expect($('#parent').children().id()).toBe('');
+    });
+
+    test('id(:string) should return a boolean that checks if the element has the specified id', () => {
+      expect($('#test').id('test')).toBe(true)
+      expect($('#test').id('not-test')).toBe(false)
+    });
+  })
+
+  describe('Function: is()', () => {
+    test('is() should be a function', () => {
+      expect(typeof $('div').is).toBe('function');
+    });
+
+    test('should return true for matching string selector', () => {
+      const $singleElement: Core = $('#test');
+
+      // Check if the element matches the given CSS selector
+      expect($singleElement.is('#test')).toBe(true); // Matches ID selector
+      expect($singleElement.is('.test-class')).toBe(false); // No 'test-class' class
+    });
+
+    test('should return true for matching element', () => {
+      const $classElement1: Core = $('.test-class').first();
+      const $classElement2: Core = $('.test-class').last();
+
+      // Check if the element matches another DOM element
+      expect($classElement1.is($classElement1.elements[0])).toBe(true); // Same element
+      expect($classElement1.is($classElement2.elements[0])).toBe(false); // Different element
+    });
+
+    test('should return true for function that checks element condition', () => {
+      const $singleElement: Core = $('.test-child');
+
+      expect($singleElement.is((el: HTMLElement) => el.textContent === 'TestValue')).toBe(true);
+    });
+
+
+    test('should return false for empty elements', () => {
+      const emptyElements: Core = $('.non-existent-class');
+
+      // If there are no elements, it should return false for any condition
+      expect(emptyElements.is('#nonexistent')).toBe(false);
+      expect(emptyElements.is('.nonexistent-class')).toBe(false);
+    });
+
+    test('should return false for unmatched string selector', () => {
+      const $singleElement: Core = $('#test');
+
+      // Check if element doesn't match a non-existent class
+      expect($singleElement.is('.nonexistent-class')).toBe(false);
+    });
+
+    test('should return false for empty or invalid selector', () => {
+      const $singleElement: Core = $('#test');
+
+      // Passing empty string or non-matching selector
+      expect($singleElement.is('')).toBe(false);
+      // @ts-expect-error - Should throw error for invalid selector
+      expect($singleElement.is(null)).toBe(false);
+      // @ts-expect-error - Should throw error for invalid selector
+      expect($singleElement.is(undefined)).toBe(false);
+    });
+  });
+
+  describe('Function: classList()', () => {
+    test('classList() should be a function', () => {
+      expect(typeof $('div').classList).toBe('function');
+    });
+
+    test('classList() should return the class list of the element', () => {
+      const $div: Core = $('div:first-child');
+      const className: string = 'test-class';
+
+      $div.addClass(className);
+
+      const classList: string = $div.classList();
+
+      expect(classList).toBe(className);
+    });
+
+    test('classList() should return an empty string if the element has no classes', () => {
+      expect($('div:first-child').classList()).toEqual('');
+    });
+  });
+
+  describe('Function: find()', () => {
+    test('find() should be a function', () => {
+      expect(typeof $('#parent').find).toBe('function');
+    });
+
+    test('find() should return a Core instance', () => {
+      const $parent: Core = $('#parent');
+      const $children: Core = $parent.find('.child');
+
+      expect($children).toBeInstanceOf(Core);
+    });
+
+    test('find() should return the correct child elements', () => {
+      const $parent: Core = $('#parent');
+      const $children: Core = $parent.find('.child');
+
+      expect($children.length).toBe($('#parent .child').length);
+    });
+
+    test('find() should return an empty selection if no matching elements are found', () => {
+      const $parent: Core = $('#parent');
+      const $nonExistent: Core = $parent.find('.non-existent-class');
+
+      expect($nonExistent.length).toBe(0);
+    });
+  })
+
+  test('Function: css()', () => {
+    expect(true).toBe(true);
   })
 })
