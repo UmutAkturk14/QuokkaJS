@@ -285,7 +285,7 @@ class Core {
     return $(siblingElements);
   }
 
-  get(index: number, core: boolean = false): HTMLElement | Core | undefined {
+  get(index: number, core: boolean = true): HTMLElement | Core | undefined {
     if (core) {
       return $(this.elements[index]);
     }
@@ -806,6 +806,23 @@ class Core {
   // Length of the selected elements
   get length(): number {
     return this.elements.length;
+  }
+
+  focus(): this {
+    return this._applyMethod('focus');
+  }
+
+  click(): this {
+    return this._applyMethod('click');
+  }
+
+  blur(): this {
+    return this._applyMethod('blur');
+  }
+
+  private _applyMethod(method: 'focus' | 'click' | 'blur'): this {
+    this.each((el: HTMLElement) => el[method]());
+    return this;
   }
 
   private insertAt(

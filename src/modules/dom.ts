@@ -7,23 +7,6 @@ class DOM extends Core {
   constructor(selector: string | HTMLElement | HTMLElement[]) {
     super(selector); // Call the Core constructor
   }
-
-  focus(): this {
-    return this._applyMethod('focus');
-  }
-
-  click(): this {
-    return this._applyMethod('click');
-  }
-
-  blur(): this {
-    return this._applyMethod('blur');
-  }
-
-  private _applyMethod(method: 'focus' | 'click' | 'blur'): this {
-    this.each((el: HTMLElement) => el[method]());
-    return this;
-  }
 }
 
 /**

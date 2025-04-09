@@ -1,16 +1,14 @@
 // Import modules
 import Core from "./modules/core";
-import Dom from "./modules/dom";
 
 // Make $ return Dom instance
-function $(selector: string): Dom {
-  return new Dom(selector);
+function $(selector: string): Core {
+  return new Core(selector);
 }
 
 // QuokkaJS library export
 const QuokkaJS = {
   Core,
-  Dom,
   $
 };
 
