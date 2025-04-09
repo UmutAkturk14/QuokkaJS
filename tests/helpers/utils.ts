@@ -79,7 +79,7 @@ export function setDOM(): {
 export function basicChecks(): void {
   let allChecksPassed: boolean = true;
 
-  console.log("\x1b[1m\x1b[32m%s\x1b[0m", "=== Basic Environment Checks ===");
+  console.log("\x1b[1m\x1b[32m%s\x1b[0m", "=== Basic Environment Checks ===\n");
 
   // Check for window and document
   const isWindowDefined: boolean = typeof window !== "undefined";
@@ -126,12 +126,12 @@ export function basicChecks(): void {
   console.log("Is running in JSDOM:", isInJSDOM);
   if (!isInJSDOM) allChecksPassed = false;
 
-  console.log("================================");
+  console.log("================================\n");
 
   // Log the final result
   if (allChecksPassed) {
-    console.log("\x1b[1m\x1b[32m%s\x1b[0m", "SUCCESS: All environment checks passed!");
+    console.log("\x1b[1m\x1b[32m%s\x1b[0m", "\nSUCCESS: All environment checks passed!");
   } else {
-    console.log("\x1b[1m\x1b[31m%s\x1b[0m", "FAILURE: One or more environment checks failed.");
+    console.log("\x1b[1m\x1b[31m%s\x1b[0m", "\nFAILURE: One or more environment checks failed.");
   }
 }

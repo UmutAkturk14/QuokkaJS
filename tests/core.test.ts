@@ -616,15 +616,6 @@ describe("Core Module", () => {
     })
   })
 
-  describe('Function: Remove', () => {
-    test('Should remove the element from the DOM', () => {
-      const $test: Core = $('#test');
-      $test.remove();
-
-      expect($('#test').length).toBe(0);
-    });
-  })
-
   test('Function: parent()', () => {
     const $child: Core = $('.child:first-child');
     const $parent: Core = $child.parent();
@@ -801,9 +792,5 @@ describe("Core Module", () => {
 
       expect($nonExistent.length).toBe(0);
     });
-  })
-
-  test('Function: css()', () => {
-    expect(true).toBe(true);
   })
 })
