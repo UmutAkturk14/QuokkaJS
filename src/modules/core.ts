@@ -1,3 +1,5 @@
+import { eventManager } from "./eventManager";
+
 /**
  * Core functionality of the library.
  */
@@ -37,8 +39,12 @@ class Core {
         throw new Error("No elements found for the given selector.");
       }
     } catch (error) {
+      console.error("Error in Core constructor:", error);
       this.elements = [];
     }
+
+    // Assign eventManager methods to this instance
+    Object.assign(this, eventManager);
 
     // Ensure that `this` acts as an array-like object
     if(this.elements.length > 0) {
@@ -53,6 +59,9 @@ class Core {
       writable: false, // Makes length read-only
       enumerable: false, // Keeps it from appearing in `for...in`
     });
+
+    // Assign eventManager methods to this instance
+    Object.assign(this, eventManager);
   }
 
   // Get data
@@ -103,7 +112,6 @@ class Core {
     // Otherwise, return the attribute's value
     return firstElement.getAttribute(`data-${name}`) ?? undefined;
   }
-
 
   // Iterate over elements
   each(callback: (el: HTMLElement, index: number) => void): this {
