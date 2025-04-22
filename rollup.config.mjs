@@ -5,7 +5,7 @@ export default {
   output: {
     file: 'dist/main.js',
     format: 'iife',
-    name: '$',
+    name: 'Q',
     sourcemap: true
   },
   plugins: [typescript()]
