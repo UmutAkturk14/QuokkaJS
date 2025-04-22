@@ -1,5 +1,6 @@
 // Import modules
 import Core from "./modules/core";
+import QuokkaStorage from "./modules/storage";
 
 // Make $ return Dom instance
 function $(selector: string): Core {
@@ -9,7 +10,8 @@ function $(selector: string): Core {
 // QuokkaJS library export
 const QuokkaJS = {
   Core,
-  $
+  $,
+  QuokkaStorage
 };
 
 // Expose globally
