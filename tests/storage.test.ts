@@ -1,0 +1,93 @@
+import { describe, expect, beforeEach, test, vi } from "vitest";
+import storage from "../src/modules/storage";
+
+const testKey = "testKey";
+const testNamespace = "testNS";
+const testValue = { foo: "bar" };
+const stringValue = "hello";
+const boolValue = true;
+
+describe("Storage", () => {
+  beforeEach(() => {
+    storage.local.clear();
+    storage.session.clear();
+  });
+
+  test("set and get string value", () => {
+    storage.local.set(testKey, stringValue);
+    expect(storage.local.get(testKey)).toBe(stringValue);
+  });
+
+  test("set and get object value", () => {
+    storage.local.set(testKey, testValue);
+    expect(storage.local.get(testKey)).toEqual(testValue);
+  });
+
+  test("set and get boolean value", () => {
+    storage.local.set(testKey, boolValue);
+    expect(storage.local.get(testKey)).toBe(true);
+  });
+
+  test("remove value", () => {
+    storage.local.set(testKey, stringValue);
+    storage.local.remove(testKey);
+    expect(storage.local.get(testKey)).toBeNull();
+  });
+
+  test("has method", () => {
+    expect(storage.local.has(testKey)).toBe(false);
+    storage.local.set(testKey, stringValue);
+    expect(storage.local.has(testKey)).toBe(true);
+  });
+
+  test("clear method", () => {
+    storage.local.set("a", 1);
+    storage.local.set("b", 2);
+    storage.local.clear();
+    expect(storage.local.length()).toBe(0);
+  });
+
+  test("namespace isolation", () => {
+    storage.local.set(testKey, "global");
+    storage.local.set(testKey, "namespaced", { namespace: testNamespace });
+
+    expect(storage.local.get(testKey)).toBe("global");
+    expect(storage.local.get(testKey, { namespace: testNamespace })).toBe("namespaced");
+  });
+  test("value is available before expiration", () => {
+    const expirationTime = Date.now() + 2000; // 1 second from now
+    storage.local.set(testKey, stringValue, { expires: expirationTime });
+
+    expect(storage.local.get(testKey)).toBe(stringValue); // should still be valid
+  });
+
+  test("value is removed after expiration", async () => {
+    const expirationTime = Date.now() - 5; // 5ms from now
+    storage.local.set(testKey, stringValue, { expires: expirationTime });
+
+    // Wait for more than 5ms
+    await new Promise(resolve => setTimeout(resolve, 10));
+
+    // Now the value should have expired
+    expect(storage.local.get(testKey)).toBeNull();
+    expect(storage.local.has(testKey)).toBe(false);
+  });
+
+
+
+  test("entries, keys and values return correctly", () => {
+    storage.local.set("key1", "one");
+    storage.local.set("key2", "two");
+
+    const keys = storage.local.keys();
+    const values = storage.local.values();
+    const entries = storage.local.entries();
+
+    expect(keys).toContain("key1");
+    expect(keys).toContain("key2");
+    expect(values).toContain("one");
+    expect(values).toContain("two");
+    expect(entries).toContainEqual(["key1", expect.any(String)]);
+    expect(entries).toContainEqual(["key2", expect.any(String)]);
+  });
+});
