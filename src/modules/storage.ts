@@ -73,7 +73,7 @@ class Storage {
           options?.expires != null
             ? JSON.stringify({
               value,
-              expiresAt: Date.now() + options.expires * 1000,
+              expiresAt: options.expires,
             })
             : typeof value === "object"
               ? JSON.stringify(value)

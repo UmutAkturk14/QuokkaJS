@@ -41,8 +41,8 @@ describe("Storage", () => {
   });
 
   test("clear method", () => {
-    storage.local.set("a", 1);
-    storage.local.set("b", 2);
+    storage.local.set("a", 'a');
+    storage.local.set("b", 'b');
     storage.local.clear();
     expect(storage.local.length()).toBe(0);
   });
@@ -55,18 +55,15 @@ describe("Storage", () => {
     expect(storage.local.get(testKey, { namespace: testNamespace })).toBe("namespaced");
   });
   test("value is available before expiration", () => {
-    const expirationTime = Date.now() + 2000; // 1 second from now
+    const expirationTime: number = Date.now() + 2000; // 1 second from now
     storage.local.set(testKey, stringValue, { expires: expirationTime });
 
     expect(storage.local.get(testKey)).toBe(stringValue); // should still be valid
   });
 
   test("value is removed after expiration", async () => {
-    const expirationTime = Date.now() - 5; // 5ms from now
+    const expirationTime: number = Date.now() - 5; // 5ms from now
     storage.local.set(testKey, stringValue, { expires: expirationTime });
-
-    // Wait for more than 5ms
-    await new Promise(resolve => setTimeout(resolve, 10));
 
     // Now the value should have expired
     expect(storage.local.get(testKey)).toBeNull();
