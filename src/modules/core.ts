@@ -721,7 +721,7 @@ class Core {
   }
 
   flip(duration: number = 600): this {
-    const finalDuration = duration || 600;
+    const finalDuration: number = duration || 600;
 
     this.css({
       'transform-style': 'preserve-3d',

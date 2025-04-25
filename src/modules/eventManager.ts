@@ -1,32 +1,103 @@
 import type Core from "./core";
 
+type HandlerEntry = {
+  event: string;
+  namespace?: string;
+  callback: EventListener;
+};
+
+const handlerMap: WeakMap<HTMLElement, HandlerEntry[]> = new WeakMap();
+
+function parseEvent(eventWithNamespace: string): { event: string; namespace?: string } {
+  const [event, namespace] = eventWithNamespace.split(".");
+  return { event, namespace };
+}
+
 export const eventManager: {
   on(this: Core, event: string, callback: EventListener): Core;
-  off(this: Core, event: string, callback: EventListener): Core;
-  trigger(this: Core, event: string): Core;
+  off(this: Core, event: string, callback?: EventListener): Core;
+  once(this: Core, event: string, callback: EventListener): Core;
+  delegate(this: Core, event: string, selector: string, callback: EventListener): Core;
+  trigger(this: Core, event: string, detail?: unknown): Core;
 } = {
-  // Add an event listener
-  on(this: Core, event: string, callback: EventListener): Core {
+  on(this: Core, eventWithNS: string, callback: EventListener): Core {
+    const { event, namespace } = parseEvent(eventWithNS);
     this.elements.forEach((el: HTMLElement) => {
+      const entry: HandlerEntry = { event, namespace, callback };
       el.addEventListener(event, callback);
+
+      const handlers: HandlerEntry[] = handlerMap.get(el) || [];
+      handlers.push(entry);
+      handlerMap.set(el, handlers);
     });
     return this;
   },
 
-  // Remove an event listener
-  off(this: Core, event: string, callback: EventListener): Core {
+  off(this: Core, eventWithNS: string, callback?: EventListener): Core {
+    const { event, namespace } = parseEvent(eventWithNS);
     this.elements.forEach((el: HTMLElement) => {
-      el.removeEventListener(event, callback);
+      const handlers: HandlerEntry[] | undefined = handlerMap.get(el);
+      if (!handlers) return;
+
+      handlerMap.set(
+        el,
+        handlers.filter((entry) => {
+          const match: boolean =
+            entry.event === event &&
+            (namespace ? entry.namespace === namespace : true) &&
+            (!callback || entry.callback === callback);
+
+          if (match) {
+            el.removeEventListener(entry.event, entry.callback);
+            return false;
+          }
+          return true;
+        })
+      );
     });
     return this;
   },
 
-  // Trigger an event
-  trigger(this: Core, event: string): Core {
+  once(this: Core, eventWithNS: string, callback: EventListener): Core {
+    const { event, namespace } = parseEvent(eventWithNS);
+
+    const onceCallback: EventListener = (e: Event): void => {
+      callback(e);
+      eventManager.off.call(this, `${event}${namespace ? `.${namespace}` : ""}`, onceCallback);
+    };
+
+    eventManager.on.call(this, `${event}${namespace ? `.${namespace}` : ""}`, onceCallback);
+    return this;
+  },
+
+
+  delegate(this: Core, eventWithNS: string, selector: string, callback: EventListener): Core {
+    const { event, namespace } = parseEvent(eventWithNS);
     this.elements.forEach((el: HTMLElement) => {
-      const customEvent: Event = new Event(event);
+      const handler: (e: Event) => void = (e: Event): void => {
+        const target: HTMLElement | null = e.target as HTMLElement;
+        const matchedElement: HTMLElement | null = target?.closest(selector);
+        if (matchedElement) {
+          callback.call(matchedElement, e);
+        }
+      };
+
+      const entry: HandlerEntry = { event, namespace, callback: handler };
+      el.addEventListener(event, handler);
+
+      const handlers: HandlerEntry[] = handlerMap.get(el) || [];
+      handlers.push(entry);
+      handlerMap.set(el, handlers);
+    });
+    return this;
+  },
+
+  trigger(this: Core, eventWithNS: string, detail?: unknown): Core {
+    const { event } = parseEvent(eventWithNS); // namespace is not used here
+    this.elements.forEach((el: HTMLElement) => {
+      const customEvent: CustomEvent = new CustomEvent(event, { detail });
       el.dispatchEvent(customEvent);
     });
     return this;
-  }
+  },
 };
