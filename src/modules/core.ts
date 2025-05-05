@@ -1,11 +1,14 @@
 import { eventManager } from "./eventManager";
+import { DOM } from "./dom";
 
 /**
  * Core functionality of the library.
  */
 class Core {
-  [index: number]: HTMLElement;
-  elements: HTMLElement[];
+  [index: number]: HTMLElement; // For array-like behavior
+  elements: HTMLElement[]; // Store the elements
+  eventManager: typeof eventManager; // Event manager reference
+  DOM: typeof DOM; // DOM manipulation reference
 
   constructor(selector: string | HTMLElement | HTMLElement[], attributes?: Record<string, string>) {
     try {
@@ -39,15 +42,18 @@ class Core {
         throw new Error("No elements found for the given selector.");
       }
     } catch (error) {
-      console.error("Error in Core constructor:", error);
+      if (process.env.NODE_ENV === "development") {
+        console.error("Error in Core constructor:", error);
+      }
       this.elements = [];
     }
 
     // Assign eventManager methods to this instance
-    Object.assign(this, eventManager);
+    this.eventManager = Object.create(eventManager);
+    this.DOM = Object.create(DOM);
 
     // Ensure that `this` acts as an array-like object
-    if(this.elements.length > 0) {
+    if (this.elements.length > 0) {
       this.elements.forEach((el: HTMLElement, index: number) => {
         this[index] = el; // Assign each element to `this` (acting as an array)
       });
@@ -60,8 +66,33 @@ class Core {
       enumerable: false, // Keeps it from appearing in `for...in`
     });
 
-    // Assign eventManager methods to this instance
-    Object.assign(this, eventManager);
+    // Proxy to handle delegation of method calls
+    return new Proxy(this, {
+      get(target: Core, prop: string | symbol): unknown {
+        // Check if the method exists in the DOM module
+        if (typeof prop === "string" && prop in DOM) {
+          return (...args: unknown[]): Core => {
+            // Call the DOM method with the current instance's elements
+            if (prop in DOM) {
+              (DOM[prop as keyof typeof DOM] as (...args: unknown[]) => void).apply(target, args);
+            }
+            return target;  // Keep chainability by returning the instance
+          };
+        }
+
+        // Check if the method exists in the eventManager module
+        if (typeof prop === "string" && prop in eventManager) {
+          return (...args: unknown[]): Core => {
+            // Call the eventManager method with the current instance's elements
+            (eventManager[prop as keyof typeof eventManager] as (...args: unknown[]) => void).apply(target, args);
+            return target;  // Keep chainability by returning the instance
+          };
+        }
+
+        // If the method doesn't exist in any module, return the default behavior
+        return target[prop as keyof Core];
+      }
+    });
   }
 
   // Get data
@@ -306,27 +337,6 @@ class Core {
     return $(element);
   }
 
-  // Individual methods for clarity
-  prepend(child: string | HTMLElement | Core): this {
-    return this.insertAt(child, 'prepend');
-  }
-
-  before(child: string | HTMLElement | Core): this {
-    return this.insertAt(child, 'before');
-  }
-
-  after(child: string | HTMLElement | Core): this {
-    return this.insertAt(child, 'after');
-  }
-
-  append(child: string | HTMLElement | Core): this {
-    return this.insertAt(child, 'append');
-  }
-
-  replace(child: string | HTMLElement | Core): this {
-    return this.insertAt(child, 'replace');
-  }
-
   id(identifier?: string): string | boolean | undefined {
     if (identifier !== null && identifier !== undefined && identifier !== "") {
       return this.elements[0].id === identifier;
@@ -371,537 +381,9 @@ class Core {
     return this.elements[0].className;
   }
 
-  css(
-    property: string | { [key: string]: string },
-    value?: string,
-    important: boolean | string = false): this | string {
-    if (typeof property === 'string' && value === undefined) {
-      const computedStyle: CSSStyleDeclaration = getComputedStyle(this.elements[0]);
-      return computedStyle.getPropertyValue(property);
-    } else if (typeof property === 'string' && value !== undefined) {
-      this.elements.forEach((el: HTMLElement) => {
-        if (important) {
-          el.style.setProperty(property, value, 'important');
-        } else {
-          el.style.setProperty(property, value);
-        }
-      });
-
-      return this;
-    } else if (typeof property === 'object') {
-      this.elements.forEach((el: HTMLElement) => {
-        for (const [key, value] of Object.entries(property)) {
-          el.style.setProperty(key, value)
-        }
-      });
-
-      return this;
-    }
-
-    return this;
-  }
-
-  hide(): this {
-    this.css('display', 'none');
-
-    return this;
-  }
-
-  show(): this {
-    this.css('display', '');
-
-    return this;
-  }
-
-  toggle(): this {
-    if (this.css('display') === 'none') {
-      this.show();
-    } else {
-      this.hide();
-    }
-
-    return this;
-  }
-
-  toggleVisibility(): this {
-    if (this.css('visibility') === 'hidden') {
-      this.css('visibility', 'visible');
-    } else {
-      this.css('visibility', 'hidden');
-    }
-
-    return this;
-  }
-
-  visible(): this {
-    this.css('visibility', 'visible');
-
-    return this;
-  }
-
-  invisible(): this {
-    this.css('visibility', 'hidden');
-
-    return this;
-  }
-  fadeOut(duration: number = 400, useVisibility: boolean = false): this {
-    const finalDuration: number = duration || 400;
-
-    if (useVisibility) {
-      this.css(
-        {
-          'transition': `opacity ${ finalDuration }ms ease-out`,
-          'opacity': '0'
-        }
-      )
-    } else {
-      this.css(
-        {
-          'transition': `opacity ${ finalDuration }ms ease-out`,
-          'opacity': '0',
-        }
-      )
-
-      setTimeout(() => {
-        this.css('display', 'none');
-      }, finalDuration);
-    }
-
-    return this;
-  }
-
-  fadeIn(duration: number = 400, useVisibility: boolean = false): this {
-    const finalDuration: number = duration || 400;
-
-    this.css({
-      'display': 'block',
-      'opacity': '0',
-      'transition': `opacity ${finalDuration}ms ease-out`
-    });
-
-    // Use visibility or fade-in by changing opacity
-    if (useVisibility) {
-      setTimeout(() => {
-        this.css({
-          'visibility': 'visible',
-          'opacity': '1'
-        });
-      }, 10); // Add a small delay to trigger the opacity transition
-    } else {
-      setTimeout(() => {
-        this.css({
-          'opacity': '1' // Fade in by changing opacity
-        });
-      }, 10);
-    }
-
-    return this;
-  }
-
-  fadeToggle(duration: number = 400, useVisibility: boolean = false): this {
-    // Check the visibility of the selection as a whole (not individual elements)
-    const isVisible: boolean = this.elements.some((el: HTMLElement) => getComputedStyle(el).opacity === '1');
-
-    // Apply fadeOut or fadeIn depending on visibility of the selection
-    if (isVisible) {
-      this.fadeOut(duration, useVisibility);
-    } else {
-      this.fadeIn(duration, useVisibility);
-    }
-
-    return this;
-  }
-
-  slideDown(duration: number = 400): this {
-    const finalDuration: number = duration || 400;
-
-    // Set display to block and start from height 0 for sliding down effect
-    this.css({
-      'display': 'block',
-      'height': '0',
-      'overflow': 'hidden',
-      'transition': `height ${finalDuration}ms ease-out`
-    });
-
-    // Get the element's original height (height before it's hidden)
-    const height: string = `${ this.elements[0].scrollHeight }px`;
-
-    // Set height back to its full height to trigger the slide-down animation
-    setTimeout(() => {
-      this.css({
-        'height': height // Slide down to original height
-      });
-    }, 10); // Small timeout to trigger the transition
-
-    return this;
-  }
-
-  slideUp(duration: number = 400): this {
-    const finalDuration: number = duration || 400;
-
-    // Set the element's height to the current height for the animation to work
-    this.css({
-      'transition': `height ${ finalDuration }ms ease-out`,
-      'height': `${ this.elements[0].offsetHeight }px`, // Set initial height
-      'overflow': 'hidden'
-    });
-
-    // Animate the height to 0 to hide the element
-    setTimeout(() => {
-      this.css({
-        'height': '0'
-      });
-    }, 10); // Small timeout to trigger the transition
-
-    setTimeout(() => {
-      this.css('display', 'none'); // Set display to none after the slide-up animation ends
-    }, finalDuration);
-
-    return this;
-  }
-
-  slideYToggle(duration: number = 400): this {
-    const isVisible: boolean = this.elements.some((el: HTMLElement) => getComputedStyle(el).display !== 'none');
-
-    if (isVisible) {
-      this.slideUp(duration);
-    } else {
-      this.slideDown(duration);
-    }
-
-    return this;
-  }
-
-  slideLeft(duration: number = 400): this {
-    this.css({
-      'transition': `transform ${ duration }ms ease-out, opacity ${ duration }ms ease-out`,
-      'transform': 'translateX(-100%)',
-      'opacity': '0'
-    });
-
-    setTimeout(() => {
-      this.css('visibility', 'hidden');
-    }, duration);
-
-    return this;
-  }
-
-  slideRight(duration: number = 400): this {
-
-    this.css({
-      'visibility': 'visible',
-      'transform': 'translateX(0%)',
-      'transition': `transform ${ duration }ms ease-out, opacity ${ duration }ms ease-out`,
-      'opacity': '1'
-    });
-
-    return this;
-  }
-
-  slideXToggle(duration: number = 400): this {
-    const isVisible: boolean = this.elements.some((el: HTMLElement) => {
-      const style: CSSStyleDeclaration = getComputedStyle(el);
-      const transform: string = style.transform;
-      const opacity: number = parseFloat(style.opacity);
-      const visibility: boolean = style.visibility !== 'hidden';
-      return visibility && opacity > 0 && (transform === 'none' || transform.includes('matrix(1'));
-    });
-
-    if (isVisible) {
-      this.slideLeft(duration);
-    } else {
-      this.slideRight(duration);
-    }
-
-    return this;
-  }
-
-  pulse(duration: number = 600, scale: number = 1.2): this {
-    const step: number = duration / 5;
-
-    this.css({
-      'transition': `transform ${step}ms ease-out`,
-      'transform': `scale(${scale})`
-    });
-
-    setTimeout(() => {
-      this.css('transform', 'scale(0.95)');
-    }, step);
-
-    setTimeout(() => {
-      this.css('transform', `scale(${scale * 0.98})`);
-    }, step * 2);
-
-    setTimeout(() => {
-      this.css('transform', 'scale(1.01)');
-    }, step * 3);
-
-    setTimeout(() => {
-      this.css('transform', 'scale(1)');
-    }, step * 4);
-
-    return this;
-  }
-
-  bounce(duration: number = 600, height: number = 30): this {
-    const step: number = duration / 6;
-
-    // Initial bounce up
-    this.css({
-      'transition': `transform ${step}ms ease-out`,
-      'transform': `translateY(-${height}px) scaleY(1)`
-    });
-
-    // Fall and squish
-    setTimeout(() => {
-      this.css({
-        'transform': 'translateY(0) scaleY(0.9)'
-      });
-    }, step);
-
-    // Rebound up (smaller)
-    setTimeout(() => {
-      this.css({
-        'transform': `translateY(-${height * 0.5}px) scaleY(1)`
-      });
-    }, step * 2);
-
-    // Fall and squish again (smaller)
-    setTimeout(() => {
-      this.css({
-        'transform': 'translateY(0) scaleY(0.95)'
-      });
-    }, step * 3);
-
-    // Tiny final bounce
-    setTimeout(() => {
-      this.css({
-        'transform': `translateY(-${height * 0.25}px) scaleY(1)`
-      });
-    }, step * 4);
-
-    // Back to rest
-    setTimeout(() => {
-      this.css({
-        'transform': 'translateY(0) scaleY(1)'
-      });
-    }, step * 5);
-
-    return this;
-  }
-
-  shake(duration: number = 400, intensity: number = 2): this {
-    const keyframes: string[] = [
-      `translateX(0)`,
-      `translateX(-${intensity}px)`,
-      `translateX(${intensity}px)`,
-      `translateX(-${intensity}px)`,
-      `translateX(${intensity}px)`,
-      `translateX(0)`,
-    ];
-
-    const frameCount: number = keyframes.length;
-    const interval: number = duration / frameCount;
-
-    keyframes.forEach((transform: string, index: number) => {
-      setTimeout(() => {
-        this.css({
-          transform,
-        });
-      }, index * interval);
-    });
-
-    setTimeout(() => {
-      this.css({
-        transform: 'none',
-      });
-    }, duration);
-
-    return this;
-  }
-
-  flip(duration: number = 600): this {
-    const finalDuration: number = duration || 600;
-
-    this.css({
-      'transform-style': 'preserve-3d',
-      'transition': `transform ${finalDuration}ms ease-in-out`,
-      'transform': 'rotateY(180deg)',
-    });
-
-    setTimeout(() => {
-      this.css({
-        'transform': 'rotateY(0deg)',
-      });
-    }, finalDuration);
-
-    return this;
-  }
-
-  zoomIn(duration: number = 600, scale: number = 1.2): this {
-    this.css({
-      'transform': `scale(${scale})`,
-      'transition': `transform ${duration}ms ease-in-out`,
-    })
-
-    return this;
-  }
-
-  zoomOut(duration: number = 600): this {
-    this.css({
-      'transform': `scale(1)`,
-      'transition': `transform ${duration}ms ease-in-out`,
-    })
-
-    return this;
-  }
-
-  pulseGlow(duration: number = 800, intensity: number = 20, colors: {
-    boxShadow: string;
-    textShadow: string;
-    boxShadowPulse: string;
-    textShadowPulse: string;
-  } = {
-    boxShadow: 'rgba(91, 255, 15, 0.92)',
-    textShadow: 'rgba(37, 185, 243, 0.86)',
-    boxShadowPulse: 'rgba(30, 214, 205, 0.89)',
-    textShadowPulse: 'rgba(33, 145, 236, 0.8)'
-  }): this {
-    const finalDuration: number = duration || 800;
-    const finalIntensity: number = intensity || 20;
-
-    // Store original box-shadow and text-shadow values
-    const originalBoxShadow: string = this.css('box-shadow') as string || '';
-    const originalTextShadow: string = this.css('text-shadow') as string || '';
-
-    // Apply initial glow effect
-    this.css({
-      'transition': `box-shadow ${finalDuration}ms ease-in-out, text-shadow ${finalDuration}ms ease-in-out`,
-      'box-shadow': `0 0 ${finalIntensity}px ${colors.boxShadow}`,
-      'text-shadow': `0 0 ${finalIntensity}px ${colors.textShadow}`,
-    });
-
-    // Helper function to toggle pulse effect
-    const togglePulse: () => void = (): void => {
-      this.css({
-        'box-shadow': `0 0 ${finalIntensity * 2}px ${colors.boxShadowPulse}`,
-        'text-shadow': `0 0 ${finalIntensity * 2}px ${colors.textShadowPulse}`,
-      });
-
-      setTimeout(() => {
-        this.css({
-          'box-shadow': originalBoxShadow,
-          'text-shadow': originalTextShadow,
-        });
-      }, finalDuration / 2); // Half-duration to reverse pulse
-    };
-
-    // Start pulse effect cycle
-    const pulseInterval: NodeJS.Timeout = setInterval(togglePulse, finalDuration);
-
-    // Stop pulse effect and restore original styles after 2 cycles
-    setTimeout(() => {
-      clearInterval(pulseInterval);
-      this.css({
-        'box-shadow': originalBoxShadow,
-        'text-shadow': originalTextShadow,
-      });
-    }, finalDuration * 2); // Stop after two cycles
-
-    return this;
-  }
-
   // Length of the selected elements
   get length(): number {
     return this.elements.length;
-  }
-
-  focus(): this {
-    return this._applyMethod('focus');
-  }
-
-  click(): this {
-    return this._applyMethod('click');
-  }
-
-  blur(): this {
-    return this._applyMethod('blur');
-  }
-
-  private _applyMethod(method: 'focus' | 'click' | 'blur'): this {
-    this.each((el: HTMLElement) => el[method]());
-    return this;
-  }
-
-  private insertAt(
-    child: string | HTMLElement | Core,
-    position: 'append' | 'prepend' | 'before' | 'after' | 'replace'
-  ): this {
-    if (typeof child === 'string') {
-      const tempDiv: HTMLDivElement = document.createElement('div');
-      tempDiv.innerHTML = child;
-      const nodes: ChildNode[] = Array.from(tempDiv.childNodes);
-
-      this.each((el: HTMLElement) => {
-        nodes.forEach((node: ChildNode) => {
-          switch (position) {
-          case 'prepend':
-            el.insertBefore(node.cloneNode(true), el.firstChild);
-            break;
-          case 'before':
-            el.parentNode?.insertBefore(node.cloneNode(true), el);
-            break;
-          case 'after':
-            el.parentNode?.insertBefore(node.cloneNode(true), el.nextSibling);
-            break;
-          case 'append':
-            el.appendChild(node.cloneNode(true));
-            break;
-          case 'replace':
-            // Replace the element with the new content
-            el.parentNode?.replaceChild(node.cloneNode(true), el);
-            break;
-          default:
-            console.warn('Invalid position provided for insertion');
-            break;
-          }
-        });
-      });
-
-    } else {
-      const elements: HTMLElement[] =
-        child instanceof Core ? child.elements : [child];
-
-      this.each((el: HTMLElement) => {
-        elements.forEach((childEl: HTMLElement) => {
-          if (el === childEl || el.contains(childEl)) return;
-
-          switch (position) {
-          case 'prepend':
-            el.insertBefore(childEl.cloneNode(true), el.firstChild);
-            break;
-          case 'before':
-            el.parentNode?.insertBefore(childEl.cloneNode(true), el);
-            break;
-          case 'after':
-            el.parentNode?.insertBefore(childEl.cloneNode(true), el.nextSibling);
-            break;
-          case 'append':
-            el.appendChild(childEl.cloneNode(true));
-            break;
-          case 'replace':
-            // Replace the element with the new content
-            el.parentNode?.replaceChild(childEl.cloneNode(true), el);
-            break;
-          default:
-            console.warn('Invalid position provided for insertion');
-            break;
-          }
-        });
-      });
-    }
-
-    return this;
   }
 }
 

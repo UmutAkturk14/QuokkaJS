@@ -1,10 +1,6 @@
 import type Core from "./core";
+import type HandlerEntry from "../utils/types";
 
-type HandlerEntry = {
-  event: string;
-  namespace?: string;
-  callback: EventListener;
-};
 
 const handlerMap: WeakMap<HTMLElement, HandlerEntry[]> = new WeakMap();
 
