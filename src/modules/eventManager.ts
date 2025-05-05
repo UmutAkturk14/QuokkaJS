@@ -13,7 +13,6 @@ export const eventManager: {
   on(this: Core, event: string, callback: EventListener): Core;
   off(this: Core, event: string, callback?: EventListener): Core;
   once(this: Core, event: string, callback: EventListener): Core;
-  delegate(this: Core, event: string, selector: string, callback: EventListener): Core;
   trigger(this: Core, event: string, detail?: unknown): Core;
 } = {
   on(this: Core, eventWithNS: string, callback: EventListener): Core {
@@ -63,28 +62,6 @@ export const eventManager: {
     };
 
     eventManager.on.call(this, `${event}${namespace ? `.${namespace}` : ""}`, onceCallback);
-    return this;
-  },
-
-
-  delegate(this: Core, eventWithNS: string, selector: string, callback: EventListener): Core {
-    const { event, namespace } = parseEvent(eventWithNS);
-    this.elements.forEach((el: HTMLElement) => {
-      const handler: (e: Event) => void = (e: Event): void => {
-        const target: HTMLElement | null = e.target as HTMLElement;
-        const matchedElement: HTMLElement | null = target?.closest(selector);
-        if (matchedElement) {
-          callback.call(matchedElement, e);
-        }
-      };
-
-      const entry: HandlerEntry = { event, namespace, callback: handler };
-      el.addEventListener(event, handler);
-
-      const handlers: HandlerEntry[] = handlerMap.get(el) || [];
-      handlers.push(entry);
-      handlerMap.set(el, handlers);
-    });
     return this;
   },
 
