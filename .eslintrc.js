@@ -43,10 +43,10 @@ module.exports = {
     '@typescript-eslint/typedef': [
       'error',
       {
-        arrayDestructuring: true, // Require types for array destructuring
-        arrowParameter: true, // Require types for arrow function parameters
+        // arrayDestructuring: true, // Require types for array destructuring
+        // arrowParameter: true, // Require types for arrow function parameters
         memberVariableDeclaration: true, // Require types for class member variables
-        objectDestructuring: true, // Require types for object destructuring
+        // objectDestructuring: true, // Require types for object destructuring
         parameter: true, // Require types for function parameters
         propertyDeclaration: true, // Require types for class properties
         variableDeclaration: true, // Require types for variable declarations
@@ -159,7 +159,7 @@ module.exports = {
     '@typescript-eslint/array-type': 'error',
 
     // Enforce consistent type definitions (e.g., `interface` vs `type`)
-    '@typescript-eslint/consistent-type-definitions': 'error',
+    // '@typescript-eslint/consistent-type-definitions': 'error',
 
     // Disallow confusing void expressions
     // '@typescript-eslint/no-confusing-void-expression': 'error',

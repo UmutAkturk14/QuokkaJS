@@ -560,6 +560,7 @@ describe("Core Module", () => {
   describe('Function group: Appending', () => {
     test('Function: append()', () => {
       const newChild: HTMLElement = createElement("span", { className: "new-child", textContent: "New Child" });
+      // @ts-expect-error - The function is defined in the DOM module. Should fail when it's not importet correctly.
       $('#parent').append(newChild);
 
       const $newChild: Core = $('.new-child');
@@ -574,6 +575,7 @@ describe("Core Module", () => {
 
     test('Function: prepend()', () => {
       const newChild: HTMLElement = createElement("span", { className: "new-child", textContent: "New Child" });
+      // @ts-expect-error - The function is defined in the DOM module. Should fail when it's not importet correctly.
       $('#parent').prepend(newChild);
 
       const $newChild: Core = $('.new-child');
@@ -588,6 +590,7 @@ describe("Core Module", () => {
 
     test('Function: before()', () => {
       const newChild: HTMLElement = createElement("span", { className: "new-child", textContent: "New Child" });
+      // @ts-expect-error - The function is defined in the DOM module. Should fail when it's not importet correctly.
       $('.child:first-child').before(newChild);
 
       const $newChild: Core = $('.new-child');
@@ -603,6 +606,7 @@ describe("Core Module", () => {
 
     test('Function: after()', () => {
       const newChild: HTMLElement = createElement("span", { className: "new-child", textContent: "New Child" });
+      // @ts-expect-error - The function is defined in the DOM module. Should fail when it's not importet correctly.
       $('.child:last-child').after(newChild);
 
       const $newChild: Core = $('.new-child');
