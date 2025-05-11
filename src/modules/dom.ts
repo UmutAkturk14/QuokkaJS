@@ -1,6 +1,7 @@
 import Core from "./core";
 import type { DOMMethods } from "../utils/interfaces";
 import * as animations from '../utils/animations';
+import * as advancedAnimations from '../utils/advancedAnimations';
 
 const {
   zoomIn,
@@ -27,6 +28,8 @@ const {
   visible,
   css
 } = animations;
+
+const { directionalFade } = advancedAnimations;
 
 
 
@@ -178,5 +181,6 @@ export const DOM: DOMMethods = {
   toggle,
   toggleVisibility,
   visible,
-  css
+  css,
+  directionalFade
 };
