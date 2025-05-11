@@ -800,7 +800,7 @@ describe("Core Module", () => {
 
   describe('Function: directionalFade()', () => {
     test('directionalFade() should be a function', () => {
-      expect(typeof $('#parent').directionalFade).toBe('function');
+      expect(typeof $('#parent').DOM.directionalFade).toBe('function');
     })
   })
 
