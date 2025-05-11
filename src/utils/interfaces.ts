@@ -44,6 +44,35 @@ export interface DOMMethods {
   directionalFade(this: Core, scrollUpFade: boolean, animationType: 'fade' | 'slide', selectors: string): Core;
 }
 
+export interface GeometryMethods {
+  // Basic Box Model
+  width(): number;
+  height(): number;
+  innerWidth(): number;
+  innerHeight(): number;
+  outerWidth(includeMargin?: boolean): number;
+  outerHeight(includeMargin?: boolean): number;
+
+  // Element Position
+  offset(): { top: number; left: number };
+  position(): { top: number; left: number };
+  offsetTop(): number;
+  offsetLeft(): number;
+
+  // Scroll
+  scrollTop(this: Core, value?: number): Core | number;
+  scrollLeft(this: Core, value?: number): Core | number;
+  scrollWidth(): number;
+  scrollHeight(): number;
+
+  // Visibility / Viewport
+  isInViewport(): boolean;
+
+  // Native Rect
+  rect(): DOMRect;
+}
+
+
 export interface GlowColors {
   boxShadow: string;
   textShadow: string;
