@@ -1,11 +1,11 @@
-import { describe, expect, beforeEach, test, vi } from "vitest";
+import { describe, expect, beforeEach, test } from "vitest";
 import storage from "../src/modules/storage";
 
-const testKey = "testKey";
-const testNamespace = "testNS";
-const testValue = { foo: "bar" };
-const stringValue = "hello";
-const boolValue = true;
+const testKey: string = "testKey";
+const testNamespace: string = "testNS";
+const testValue: { foo: string } = { foo: "bar" };
+const stringValue: string = "hello";
+const boolValue: boolean = true;
 
 describe("Storage", () => {
   beforeEach(() => {
@@ -76,9 +76,9 @@ describe("Storage", () => {
     storage.local.set("key1", "one");
     storage.local.set("key2", "two");
 
-    const keys = storage.local.keys();
-    const values = storage.local.values();
-    const entries = storage.local.entries();
+    const keys: string[] = storage.local.keys();
+    const values: string[] = storage.local.values();
+    const entries: [string, string][] = storage.local.entries();
 
     expect(keys).toContain("key1");
     expect(keys).toContain("key2");
