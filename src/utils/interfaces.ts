@@ -41,6 +41,7 @@ export interface DOMMethods {
   toggleVisibility(this: Core): Core;
   visible(this: Core): Core;
   invisible(this: Core): Core;
+  directionalFade(this: Core, scrollUpFade: boolean, animationType: 'fade' | 'slide', selectors: string): Core;
 }
 
 export interface GlowColors {
