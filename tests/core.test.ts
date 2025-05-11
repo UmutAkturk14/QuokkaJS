@@ -797,4 +797,12 @@ describe("Core Module", () => {
       expect($nonExistent.length).toBe(0);
     });
   })
+
+  describe('Function: directionalFade()', () => {
+    test('directionalFade() should be a function', () => {
+      expect(typeof $('#parent').directionalFade).toBe('function');
+    })
+  })
+
+
 })
