@@ -1,5 +1,7 @@
 import { eventManager } from "./eventManager";
 import { DOM } from "./dom";
+import Geometry from "./geometry"
+import type { DOMMethods, GeometryMethods } from "../utils/interfaces";
 
 /**
  * Core functionality of the library.
@@ -8,7 +10,8 @@ class Core {
   [index: number]: HTMLElement; // For array-like behavior
   elements: HTMLElement[]; // Store the elements
   eventManager: typeof eventManager; // Event manager reference
-  DOM: typeof DOM; // DOM manipulation reference
+  DOM: DOMMethods; // DOM manipulation reference
+  geometry: GeometryMethods;
 
   constructor(selector: string | HTMLElement | HTMLElement[], attributes?: Record<string, string>) {
     try {
@@ -51,6 +54,7 @@ class Core {
     // Assign eventManager methods to this instance
     this.eventManager = Object.create(eventManager);
     this.DOM = Object.create(DOM);
+    this.geometry = Object.create(Geometry)
 
     // Ensure that `this` acts as an array-like object
     if (this.elements.length > 0) {
@@ -88,6 +92,29 @@ class Core {
             return target;  // Keep chainability by returning the instance
           };
         }
+
+        // Check if the method exists in the Geometry module
+        if (typeof prop === "string" && prop in Geometry) {
+          return function (...args: unknown[]): number | Core {
+            // Call the Geometry method with the current instance's elements
+            const geometryMethod: ((...args: unknown[]) => number | undefined) | undefined =
+              Geometry[prop as keyof typeof Geometry] as ((...args: unknown[]) => number | undefined) | undefined;
+            if (!geometryMethod) {
+              throw new Error(`Method ${String(prop)} is not compatible with the expected signature.`);
+            }
+
+            // If there are arguments, execute the method and return the Core instance (for chainability)
+            if (args.length > 0) {
+              geometryMethod.apply(target, args);
+              return target; // Return Core instance for chainability
+            }
+
+            // If no arguments, return the value (for getting a value like scrollTop)
+            const result: number | undefined = geometryMethod.apply(target, args);
+            return result === undefined ? target : result;
+          };
+        }
+
 
         // If the method doesn't exist in any module, return the default behavior
         return target[prop as keyof Core];
