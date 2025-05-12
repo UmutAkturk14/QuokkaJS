@@ -13,14 +13,37 @@ class Utilities {
   }
 
   // Debounce function to limit how frequently a function can be invoked
-  debounce(func: Function, delay: number): Function {
-    let timeout: ReturnType<typeof setTimeout>;
+  debounce(
+    func: (...args: unknown[]) => void,
+    delay: number,
+    immediate: boolean = false
+  ): ((...args: unknown[]) => void) & { cancel: () => void } {
+    let timeout: NodeJS.Timeout | null = null;
 
-    return function (...args: any[]) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), delay);
+    function debounced(...args: unknown[]): void {
+      const callNow: boolean = immediate && !timeout;
+
+      if (timeout) clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        timeout = null;
+        if (!immediate) func(...args);
+      }, delay);
+
+      if (callNow) func(...args);
+    }
+
+    debounced.cancel = (): void => {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
     };
+
+    return debounced;
   }
+
+
 
   // Throttle function to limit how frequently a function can be invoked (at most once every "limit" milliseconds)
   throttle(func: Function, limit: number): Function {
@@ -55,8 +78,8 @@ class Utilities {
     });
   }
 
-  flatten<T>(arr: T[]): T[] {
-    return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? this.flatten(val) : val), []);
+  flatten<T>(arr: (T | T[])[]): T[] {
+    return arr.reduce<T[]>((acc, val) => acc.concat(Array.isArray(val) ? this.flatten(val) : val), []);
   }
 
   isArray(value: unknown): boolean {
@@ -65,23 +88,6 @@ class Utilities {
 
   randomInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  debounceImmediate(func: Function, delay: number, immediate: boolean): Function {
-    let timeout: ReturnType<typeof setTimeout>;
-
-    return function (...args: any[]) {
-      const later = () => {
-        timeout = null;
-        if (!immediate) func(...args);
-      };
-
-      const callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, delay);
-
-      if (callNow) func(...args);
-    };
   }
 
   mergeObjects<T>(...objects: T[]): T {
@@ -95,20 +101,6 @@ class Utilities {
     return Object.keys(value).length === 0;
   }
 
-  debounceWithCancel(func: Function, delay: number): { cancel: () => void, debounced: Function } {
-    let timeout: ReturnType<typeof setTimeout>;
-
-    const debounced = (...args: any[]) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), delay);
-    };
-
-    const cancel: () => void = () => {
-      clearTimeout(timeout);
-    };
-
-    return { cancel, debounced };
-  }
 
   getQueryParam(param: string, url: string = window.location.href): string | null {
     const urlParams: URLSearchParams = new URLSearchParams(url.split('?')[1]);
