@@ -43,8 +43,6 @@ class Utilities {
     return debounced;
   }
 
-
-
   // Throttle function to limit how frequently a function can be invoked (at most once every "limit" milliseconds)
   throttle(func: Function, limit: number): Function {
     let lastFunc: ReturnType<typeof setTimeout>;
@@ -86,7 +84,11 @@ class Utilities {
     return Array.isArray(value);
   }
 
-  randomInt(min: number, max: number): number {
+  isObject(value: unknown): boolean {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+  }
+
+  randomInt(min: number = 0, max: number = 100): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
@@ -184,6 +186,23 @@ class Utilities {
     const locale: string = this.getLanguage();
     return locale.split('-')[1] || '';
   }
+
+  getReferrer(): string | null {
+    if (typeof document !== 'undefined' && document.referrer) {
+      return document.referrer;
+    }
+
+    return null;
+  }
+
+  base64Encode(value: string): string {
+    return btoa(value);
+  }
+
+  base64Decode(value: string): string {
+    return atob(value);
+  }
+
 
 }
 
