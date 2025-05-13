@@ -1,7 +1,6 @@
 import { describe, expect, beforeEach, test } from "vitest"
-import Core, { $ } from "../src/modules/core"
-import { basicChecks, createElement, setDOM } from "./helpers/utils"
-import geometry from "../src/modules/geometry"
+import { $ } from "../src/modules/core"
+import { basicChecks, setDOM } from "./helpers/utils"
 
 describe("Core Module", () => {
   basicChecks();

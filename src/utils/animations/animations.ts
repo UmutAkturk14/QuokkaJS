@@ -1,5 +1,5 @@
-import type Core from "../modules/core";
-import type { GlowColors } from "./interfaces";
+import type { Core } from "@modules/core";
+import type { GlowColors } from "@utils/types/interfaces";
 
 
 /**

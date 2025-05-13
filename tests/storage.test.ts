@@ -1,5 +1,5 @@
 import { describe, expect, beforeEach, test } from "vitest";
-import storage from "../src/modules/storage";
+import { storage } from "@modules/storage";
 
 const testKey: string = "testKey";
 const testNamespace: string = "testNS";

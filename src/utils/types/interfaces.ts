@@ -1,5 +1,8 @@
-import type Core from '../modules/core';
+import type { Core } from '@modules/core';
 
+/**
+ * DOM module interfaces
+ */
 export interface DOMMethods {
   css(
     this: Core,
@@ -44,6 +47,17 @@ export interface DOMMethods {
   directionalFade(this: Core, scrollUpFade: boolean, animationType: 'fade' | 'slide', selectors: string): Core;
 }
 
+export interface GlowColors {
+  boxShadow: string;
+  textShadow: string;
+  boxShadowPulse: string;
+  textShadowPulse: string;
+}
+
+/**
+ * Geometry module interfaces
+ */
+
 export interface GeometryMethods {
   // Basic Box Model
   width(): number;
@@ -72,10 +86,23 @@ export interface GeometryMethods {
   rect(): DOMRect;
 }
 
+/**
+ * Storage module interfaces
+ */
 
-export interface GlowColors {
-  boxShadow: string;
-  textShadow: string;
-  boxShadowPulse: string;
-  textShadowPulse: string;
+export interface WebStorageOptions {
+  expires?: number;
+  namespace?: string;
+}
+
+export interface WebStorage {
+  get(key: string, options?: WebStorageOptions): string | object | boolean | null;
+  set(key: string, value: string | object | boolean, options?: WebStorageOptions): void;
+  remove(key: string, options?: WebStorageOptions): void;
+  clear(): void;
+  has(key: string, options?: WebStorageOptions): boolean;
+  keys(): string[];
+  values(): string[];
+  entries(): [string, string][];
+  length(): number;
 }

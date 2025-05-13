@@ -1,19 +1,4 @@
-interface WebStorageOptions {
-  expires?: number;
-  namespace?: string;
-}
-
-interface WebStorage {
-  get(key: string, options?: WebStorageOptions): string | object | boolean | null;
-  set(key: string, value: string | object | boolean, options?: WebStorageOptions): void;
-  remove(key: string, options?: WebStorageOptions): void;
-  clear(): void;
-  has(key: string, options?: WebStorageOptions): boolean;
-  keys(): string[];
-  values(): string[];
-  entries(): [string, string][];
-  length(): number;
-}
+import type { WebStorage, WebStorageOptions } from "../../utils/types/interfaces";
 
 function buildKey(key: string, namespace?: string): string {
   return namespace ? `${namespace}-${key}` : key;
