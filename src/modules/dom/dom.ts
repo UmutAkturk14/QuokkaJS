@@ -1,7 +1,7 @@
-import Core from "./core";
-import type { DOMMethods } from "../utils/interfaces";
-import * as animations from '../utils/animations';
-import * as advancedAnimations from '../utils/advancedAnimations';
+import { Core } from "@modules/core";
+import type { DOMMethods } from "@utils/types";
+import * as animations from '@utils/animations';
+import * as advancedAnimations from '@utils/animations';
 
 const {
   zoomIn,

@@ -1,7 +1,7 @@
-import { eventManager } from "./eventManager";
-import { DOM } from "./dom";
-import Geometry from "./geometry"
-import type { DOMMethods, GeometryMethods } from "../utils/interfaces";
+import { eventManager } from "@modules/eventManager";
+import { DOM } from "@modules/dom"
+import { geometry } from "@modules/geometry"
+import type { DOMMethods, GeometryMethods } from "@utils/types";
 
 /**
  * Core functionality of the library.
@@ -54,7 +54,7 @@ class Core {
     // Assign eventManager methods to this instance
     this.eventManager = Object.create(eventManager);
     this.DOM = Object.create(DOM);
-    this.geometry = Object.create(Geometry)
+    this.geometry = Object.create(geometry)
 
     // Ensure that `this` acts as an array-like object
     if (this.elements.length > 0) {
@@ -94,11 +94,11 @@ class Core {
         }
 
         // Check if the method exists in the Geometry module
-        if (typeof prop === "string" && prop in Geometry) {
+        if (typeof prop === "string" && prop in geometry) {
           return function (...args: unknown[]): number | Core {
             // Call the Geometry method with the current instance's elements
             const geometryMethod: ((...args: unknown[]) => number | undefined) | undefined =
-              Geometry[prop as keyof typeof Geometry] as ((...args: unknown[]) => number | undefined) | undefined;
+              geometry[prop as keyof typeof geometry] as ((...args: unknown[]) => number | undefined) | undefined;
             if (!geometryMethod) {
               throw new Error(`Method ${String(prop)} is not compatible with the expected signature.`);
             }

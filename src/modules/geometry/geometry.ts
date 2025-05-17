@@ -1,10 +1,10 @@
-import type Core from './core';
-import type { GeometryMethods } from "../utils/interfaces";
+import type { Core } from '@modules/core';
+import type { GeometryMethods } from "@utils/types/interfaces";
 
 /**
  * Geometry module implementation for the Core class
  */
-const geometry: GeometryMethods = {
+export const geometry: GeometryMethods = {
   // Basic Box Model
   width(this: HTMLElement[]) {
     return this[0].clientWidth; // Use the first element in the elements array
@@ -117,5 +117,3 @@ const geometry: GeometryMethods = {
     return this[0].getBoundingClientRect();
   }
 };
-
-export default geometry;

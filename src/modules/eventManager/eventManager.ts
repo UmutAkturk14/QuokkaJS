@@ -1,5 +1,5 @@
-import type Core from "./core";
-import type HandlerEntry from "../utils/types";
+import type { Core } from "@modules/core";
+import type { HandlerEntry } from "@utils/types";
 
 
 const handlerMap: WeakMap<HTMLElement, HandlerEntry[]> = new WeakMap();
