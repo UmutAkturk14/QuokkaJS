@@ -1,4 +1,14 @@
 {
+  "name": "quokka-js",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "main": "dist/quokka.cjs.js",
+  "module": "dist/quokka.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rollup --config",
     "dev": "rollup --config --watch",
@@ -6,8 +16,10 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "vitest",
     "start": "npm run build && node dist/main.js",
-    "serve": "npx http-server ./dist -o"
+    "serve": "npx http-server ./dist -o",
+    "prepare": "npm run build"
   },
+  "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-typescript": "^12.1.2",
     "@types/jsdom": "^21.1.7",
@@ -17,6 +29,26 @@
     "jsdom": "^26.0.0",
     "rollup": "^4.35.0",
     "tslib": "^2.8.1",
+    "typescript": "^5.8.3",
     "vitest": "^3.1.2"
-  }
+  },
+  "peerDependencies": {
+    "typescript": ">=4.0.0"
+  },
+  "keywords": [
+    "typescript",
+    "jquery",
+    "modular",
+    "storage",
+    "utilities",
+    "web",
+    "library"
+  ],
+  "author": "Umut Akturk <umut.akturk14@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UmutAkturk14/quokka-js"
+  },
+  "description": "Quokka JS - A modern modular TypeScript library inspired by jQuery, powered with other various modules."
 }
