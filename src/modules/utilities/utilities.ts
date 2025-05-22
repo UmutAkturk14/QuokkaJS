@@ -100,7 +100,7 @@ class Utilities {
     if (Array.isArray(value) || typeof value === 'string') {
       return value.length === 0;
     }
-    return Object.keys(value).length === 0;
+    return typeof value === 'object' && value !== null && Object.keys(value).length === 0;
   }
 
 
