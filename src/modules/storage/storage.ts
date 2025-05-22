@@ -31,7 +31,7 @@ function isDate(value: unknown): value is Date {
   return Object.prototype.toString.call(value) === '[object Date]';
 }
 
-class Storage {
+class QuokkaStorage {
   constructor() {
     this.cleanExpired();
   }
@@ -96,5 +96,5 @@ class Storage {
   session: WebStorage = this.createWebStorage(sessionStorage);
 }
 
-const QuokkaStorage = new Storage();
-export default QuokkaStorage;
+const Storage = new QuokkaStorage();
+export default Storage;
