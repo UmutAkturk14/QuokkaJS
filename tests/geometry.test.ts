@@ -2,11 +2,8 @@ import { describe, expect, beforeEach, test } from "vitest"
 import { $ } from "../src/modules/core"
 import { basicChecks, setDOM } from "./helpers/utils"
 
-describe("Core Module", () => {
-  basicChecks();
+describe("Geometry Module", () => {
   beforeEach(setDOM)
-
-
   // ! JSDOM FAILS RELEVANT PROPERTIES IN THE SOURCE CODE.
   // ! ONLY CHECKING THE IMPORTS.
 
