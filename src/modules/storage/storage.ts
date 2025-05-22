@@ -1,88 +1,94 @@
-import type { WebStorage, WebStorageOptions } from "../../utils/types/interfaces";
+import type { WebStorage, WebStorageEntry } from "../../utils/types/interfaces";
 
-function buildKey(key: string, namespace?: string): string {
-  return namespace ? `${namespace}-${key}` : key;
+function buildKey(name: string, namespace?: string): string {
+  return namespace ? `${namespace}-${name}` : name;
 }
 
-/**
- * Safely tries to parse JSON. Falls back to original value if parsing fails.
- * Also handles expiration if present.
- */
-function parseStoredValue(value: string | null): string | object | boolean | null {
-  if (value === null) return null;
-
+function parseStoredValue(raw: string | null): string | object | boolean | null {
+  if (raw === null) return null;
   try {
-    const parsed: string | object | boolean | unknown = JSON.parse(value);
+    const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === "object" && "value" in parsed) {
-      if ("expiresAt" in parsed && typeof (parsed as { expiresAt: number })
-        .expiresAt === "number" && Date.now() > (parsed as { expiresAt: number }).expiresAt) {
-        return null; // expired
+      if ("expiresAt" in parsed && typeof parsed.expiresAt === "number" && Date.now() > parsed.expiresAt) {
+        return null;
       }
-      const typedParsed: { value: string | boolean | object } = parsed as { value: string | boolean | object };
-      return typedParsed.value;
+      return parsed.value;
     }
-    if (typeof parsed === "string" || typeof parsed === "boolean" || (typeof parsed === "object" && parsed !== null)) {
+    if (
+      typeof parsed === "string" ||
+      typeof parsed === "boolean" ||
+      typeof parsed === "object"
+    ) {
       return parsed;
     }
     return null;
   } catch {
-    return value;
+    return raw;
   }
 }
 
-/**
- * Storage class that provides wrapper methods for both localStorage and sessionStorage
- */
+function isDate(value: unknown): value is Date {
+  return Object.prototype.toString.call(value) === '[object Date]';
+}
+
 class Storage {
-  /**
-   * Creates a WebStorage interface wrapper around the native Storage object
-   * @param storage - The native Storage object (localStorage or sessionStorage)
-   * @returns WebStorage interface implementation
-   */
-  createWebStorage(storage: globalThis.Storage): WebStorage {
-    return {
-      get: (key: string, options?: WebStorageOptions): string | object | boolean | null => {
-        const fullKey: string = buildKey(key, options?.namespace);
-        const raw: string | null = storage.getItem(fullKey);
-        const parsed: string | object | boolean | null = parseStoredValue(raw);
+  constructor() {
+    this.cleanExpired();
+  }
+
+  cleanExpired() {
+    [localStorage, sessionStorage].forEach((store) => {
+      // Iterate backwards to avoid issues when removing items
+      for (let i = store.length - 1; i >= 0; i--) {
+        const key = store.key(i);
+        if (!key) continue;
+
+        const raw = store.getItem(key);
+        const parsed = parseStoredValue(raw);
+        // If parsed is null but raw exists, it means expired or invalid
         if (parsed === null && raw !== null) {
-          // expired, remove
-          storage.removeItem(fullKey);
+          store.removeItem(key);
+        }
+      }
+    });
+  }
+
+  createWebStorage(store: globalThis.Storage): WebStorage {
+    return {
+      get: (key: string) => {
+        const raw = store.getItem(key);
+        const parsed = parseStoredValue(raw);
+        if (parsed === null && raw !== null) {
+          store.removeItem(key);
         }
         return parsed;
       },
 
-      set: (key: string, value: string | object | boolean, options?: WebStorageOptions): void => {
-        const fullKey: string = buildKey(key, options?.namespace);
-        const record: string =
-          options?.expires != null
-            ? JSON.stringify({
-              value,
-              expiresAt: options.expires,
-            })
-            : typeof value === "object"
-              ? JSON.stringify(value)
-              : String(value);
-        storage.setItem(fullKey, record);
+      set: ({ name, value, expires, namespace }: WebStorageEntry) => {
+        const fullKey = buildKey(name, namespace);
+        const expiresAt = isDate(expires) ? expires.getTime() : expires;
+        const record = JSON.stringify({
+          value,
+          ...(expires != null ? { expiresAt } : {}),
+        });
+        store.setItem(fullKey, record);
       },
 
-      remove: (key: string, options?: WebStorageOptions): void => {
-        storage.removeItem(buildKey(key, options?.namespace));
+      remove: ({ name, namespace }) => {
+        const fullKey = buildKey(name, namespace);
+        store.removeItem(fullKey);
       },
 
-      clear: (): void => {
-        storage.clear();
+      clear: () => store.clear(),
+
+      has: ({ name, namespace }) => {
+        return this.createWebStorage(store).get(buildKey(name, namespace)) !== null;
       },
 
-      has: (key: string, options?: WebStorageOptions): boolean => {
-        const value: string | object | boolean | null = this.createWebStorage(storage).get(key, options);
-        return value !== null;
-      },
-
-      keys: (): string[] => Object.keys(storage),
-      values: (): string[] => Object.values(storage) as string[],
-      entries: (): [string, string][] => Object.entries(storage) as [string, string][],
-      length: (): number => storage.length,
+      keys: () => Object.keys(store),
+      values: () => Object.values(store) as string[],
+      entries: () => Object.entries(store) as [string, string][],
+      length: () => store.length,
     };
   }
 
@@ -90,5 +96,5 @@ class Storage {
   session: WebStorage = this.createWebStorage(sessionStorage);
 }
 
-const storage: Storage = new Storage();
-export default storage;
+const QuokkaStorage = new Storage();
+export default QuokkaStorage;
