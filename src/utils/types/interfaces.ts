@@ -90,17 +90,33 @@ export interface GeometryMethods {
  * Storage module interfaces
  */
 
-export interface WebStorageOptions {
-  expires?: number;
+export interface WebStorageEntry {
+  name: string;
+  value: string | object | boolean;
+  /** Absolute UNIX timestamp (ms) – will become `expiresAt` internally */
+  expires?: number | Date;
   namespace?: string;
 }
 
 export interface WebStorage {
-  get(key: string, options?: WebStorageOptions): string | object | boolean | null;
-  set(key: string, value: string | object | boolean, options?: WebStorageOptions): void;
-  remove(key: string, options?: WebStorageOptions): void;
+  /** Retrieve a value */
+  get(params: string):
+    | string
+    | object
+    | boolean
+    | null;
+
+  /** Store a value */
+  set(entry: WebStorageEntry): void;
+
+  /** Remove a key */
+  remove(params: Pick<WebStorageEntry, "name" | "namespace">): void;
+
   clear(): void;
-  has(key: string, options?: WebStorageOptions): boolean;
+
+  /** Convenience: true if key exists and is not expired */
+  has(params: Pick<WebStorageEntry, "name" | "namespace">): boolean;
+
   keys(): string[];
   values(): string[];
   entries(): [string, string][];

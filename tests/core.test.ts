@@ -1,9 +1,8 @@
 import { describe, expect, beforeEach, test } from "vitest"
-import { Core, $ } from "@modules/core"
+import { Core, $ } from "../src/modules/core"
 import { basicChecks, createElement, setDOM } from "./helpers/utils"
 
 describe("Core Module", () => {
-  basicChecks();
   beforeEach(setDOM)
 
   describe('Main function: $', () => {

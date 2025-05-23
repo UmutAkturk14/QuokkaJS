@@ -53,9 +53,9 @@
   "description": "Quokka JS - A modern modular TypeScript library inspired by jQuery, powered with other various modules.",
   "exports": {
     ".": {
-      "import": "./dist/quokka.es.js",
       "require": "./dist/quokka.cjs.js",
-      "types": "./dist/main.d.ts"
+      "types": "./dist/main.d.ts",
+      "import": "./dist/quokka.es.js"
     }
   }
 }
