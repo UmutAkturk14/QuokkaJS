@@ -39,7 +39,7 @@ class Storage {
    * @param storage - The native Storage object (localStorage or sessionStorage)
    * @returns WebStorage interface implementation
    */
-  private createWebStorage(storage: globalThis.Storage): WebStorage {
+  createWebStorage(storage: globalThis.Storage): WebStorage {
     return {
       get: (key: string, options?: WebStorageOptions): string | object | boolean | null => {
         const fullKey: string = buildKey(key, options?.namespace);
