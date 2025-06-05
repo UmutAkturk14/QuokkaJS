@@ -1,38 +1,41 @@
+/**
+ * Chrono Module
+ */
 export class Chrono {
   static addMinutes(minutes: number, baseDate: number | Date = Date.now()): Date {
-    const base = baseDate instanceof Date ? baseDate.getTime() : baseDate;
+    const base: number = baseDate instanceof Date ? baseDate.getTime() : baseDate;
     return new Date(base + minutes * 60 * 1000);
   }
 
   static addHours(hours: number, baseDate: number | Date = Date.now()): Date {
-    const base = baseDate instanceof Date ? baseDate.getTime() : baseDate;
+    const base: number = baseDate instanceof Date ? baseDate.getTime() : baseDate;
     return new Date(base + hours * 60 * 60 * 1000);
   }
 
   static addDays(days: number, baseDate: number | Date = Date.now()): Date {
-    const base = baseDate instanceof Date ? baseDate.getTime() : baseDate;
+    const base: number = baseDate instanceof Date ? baseDate.getTime() : baseDate;
     return new Date(base + days * 24 * 60 * 60 * 1000);
   }
 
   static addWeeks(weeks: number, baseDate: number | Date = Date.now()): Date {
-    const base = baseDate instanceof Date ? baseDate.getTime() : baseDate;
+    const base: number = baseDate instanceof Date ? baseDate.getTime() : baseDate;
     return new Date(base + weeks * 7 * 24 * 60 * 60 * 1000);
   }
 
   static addSeconds(seconds: number, baseDate: number | Date = Date.now()): Date {
-    const base = baseDate instanceof Date ? baseDate.getTime() : baseDate;
+    const base: number = baseDate instanceof Date ? baseDate.getTime() : baseDate;
     return new Date(base + seconds * 1000);
   }
 
   static addMilliseconds(ms: number, baseDate: number | Date = Date.now()): Date {
-    const base = baseDate instanceof Date ? baseDate.getTime() : baseDate;
+    const base: number = baseDate instanceof Date ? baseDate.getTime() : baseDate;
     return new Date(base + ms);
   }
 
   // 1. isExpired()
   static isExpired(expiryTime: number | Date, baseTime: number | Date = Date.now()): boolean {
-    const expiry = expiryTime instanceof Date ? expiryTime.getTime() : expiryTime;
-    const base = baseTime instanceof Date ? baseTime.getTime() : baseTime;
+    const expiry: number = expiryTime instanceof Date ? expiryTime.getTime() : expiryTime;
+    const base: number = baseTime instanceof Date ? baseTime.getTime() : baseTime;
     return base >= expiry;
   }
 
@@ -42,16 +45,16 @@ export class Chrono {
     unit: 'ms' | 'seconds' | 'minutes' | 'hours' | 'days' = 'ms',
     baseTime: number | Date = Date.now(),
   ): number {
-    const expiry = expiryTime instanceof Date ? expiryTime.getTime() : expiryTime;
-    const base = baseTime instanceof Date ? baseTime.getTime() : baseTime;
-    const diff = Math.max(0, expiry - base);
+    const expiry: number = expiryTime instanceof Date ? expiryTime.getTime() : expiryTime;
+    const base: number = baseTime instanceof Date ? baseTime.getTime() : baseTime;
+    const diff: number = Math.max(0, expiry - base);
 
     switch (unit) {
-      case 'seconds': return diff / 1000;
-      case 'minutes': return diff / (1000 * 60);
-      case 'hours': return diff / (1000 * 60 * 60);
-      case 'days': return diff / (1000 * 60 * 60 * 24);
-      default: return diff; // ms
+    case 'seconds': return diff / 1000;
+    case 'minutes': return diff / (1000 * 60);
+    case 'hours': return diff / (1000 * 60 * 60);
+    case 'days': return diff / (1000 * 60 * 60 * 24);
+    default: return diff; // ms
     }
   }
 
@@ -70,13 +73,13 @@ export class Chrono {
 
   // 4. setExpiryFromNow() — you can also pass partial options for flexibility
   static setExpiryFromNow(options: { minutes?: number; hours?: number; days?: number; weeks?: number } = {}): Date {
-    const now = Date.now();
-    const minutes = options.minutes ?? 0;
-    const hours = options.hours ?? 0;
-    const days = options.days ?? 0;
-    const weeks = options.weeks ?? 0;
+    const now: number = Date.now();
+    const minutes: number = options.minutes ?? 0;
+    const hours: number = options.hours ?? 0;
+    const days: number = options.days ?? 0;
+    const weeks: number = options.weeks ?? 0;
 
-    const totalMs =
+    const totalMs: number =
       minutes * 60 * 1000 +
       hours * 60 * 60 * 1000 +
       days * 24 * 60 * 60 * 1000 +
@@ -86,17 +89,19 @@ export class Chrono {
   }
 
   // New helper method to get detailed expiry diff info
-  static getExpiryDiff(expiryTime: number | Date, baseTime: number | Date = Date.now()) {
-    const expiry = expiryTime instanceof Date ? expiryTime.getTime() : expiryTime;
-    const base = baseTime instanceof Date ? baseTime.getTime() : baseTime;
-    const diff = expiry - base;
-    const isExpired = diff <= 0;
-    const absDiff = Math.abs(diff);
+  static getExpiryDiff(expiryTime: number | Date, baseTime: number | Date = Date.now()):
+  { diff: number; isExpired: boolean; days: number; hours: number; minutes: number; seconds: number; } {
+    const expiry: number = expiryTime instanceof Date ? expiryTime.getTime() : expiryTime;
+    const base: number = baseTime instanceof Date ? baseTime.getTime() : baseTime;
+    const diff: number = expiry - base;
 
-    const seconds = Math.floor(absDiff / 1000);
-    const minutes = Math.floor(absDiff / (1000 * 60));
-    const hours = Math.floor(absDiff / (1000 * 60 * 60));
-    const days = Math.floor(absDiff / (1000 * 60 * 60 * 24));
+    const isExpired: boolean = diff <= 0;
+    const absDiff: number = Math.abs(diff);
+
+    const seconds: number = Math.floor(absDiff / 1000);
+    const minutes: number = Math.floor(absDiff / (1000 * 60));
+    const hours: number = Math.floor(absDiff / (1000 * 60 * 60));
+    const days: number = Math.floor(absDiff / (1000 * 60 * 60 * 24));
 
     return { diff, isExpired, days, hours, minutes, seconds };
   }

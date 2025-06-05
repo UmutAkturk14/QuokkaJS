@@ -1,18 +1,19 @@
-import type { WebStorage, WebStorageEntry } from "../../utils/types/interfaces";
+import type { WebStorage, WebStorageEntry, ParsedType } from "../../utils/types/interfaces";
 
 function buildKey(name: string, namespace?: string): string {
   return namespace ? `${namespace}-${name}` : name;
 }
 
-function parseStoredValue(raw: string | null): string | object | boolean | null {
+function parseStoredValue(raw: string | null): ParsedType {
   if (raw === null) return null;
   try {
-    const parsed = JSON.parse(raw);
+    const parsed: object = JSON.parse(raw);
     if (parsed && typeof parsed === "object" && "value" in parsed) {
+      const value: ParsedType = (parsed as { value: ParsedType }).value;
       if ("expiresAt" in parsed && typeof parsed.expiresAt === "number" && Date.now() > parsed.expiresAt) {
         return null;
       }
-      return parsed.value;
+      return value;
     }
     if (
       typeof parsed === "string" ||
@@ -31,20 +32,25 @@ function isDate(value: unknown): value is Date {
   return Object.prototype.toString.call(value) === '[object Date]';
 }
 
+/**
+ * QuokkaStorage is a utility class for managing web storage (localStorage and sessionStorage).
+ * It provides methods to create storage instances, clean expired items, and handle storage entries.
+ * It supports namespacing and expiration for stored items.
+ */
 class QuokkaStorage {
   constructor() {
     this.cleanExpired();
   }
 
-  cleanExpired() {
+  cleanExpired(): void {
     [localStorage, sessionStorage].forEach((store) => {
       // Iterate backwards to avoid issues when removing items
-      for (let i = store.length - 1; i >= 0; i--) {
-        const key = store.key(i);
+      for (let i: number = store.length - 1; i >= 0; i--) {
+        const key: string | null = store.key(i);
         if (!key) continue;
 
-        const raw = store.getItem(key);
-        const parsed = parseStoredValue(raw);
+        const raw: string | null = store.getItem(key);
+        const parsed: string | boolean | object | null = parseStoredValue(raw);
         // If parsed is null but raw exists, it means expired or invalid
         if (parsed === null && raw !== null) {
           store.removeItem(key);
@@ -55,33 +61,33 @@ class QuokkaStorage {
 
   createWebStorage(store: globalThis.Storage): WebStorage {
     return {
-      get: (key: string) => {
-        const raw = store.getItem(key);
-        const parsed = parseStoredValue(raw);
+      get: (key: string): object | ParsedType => {
+        const raw: string | null = store.getItem(key);
+        const parsed: ParsedType = parseStoredValue(raw);
         if (parsed === null && raw !== null) {
           store.removeItem(key);
         }
         return parsed;
       },
 
-      set: ({ name, value, expires, namespace }: WebStorageEntry) => {
-        const fullKey = buildKey(name, namespace);
-        const expiresAt = isDate(expires) ? expires.getTime() : expires;
-        const record = JSON.stringify({
+      set: ({ name, value, expires, namespace }: WebStorageEntry): void => {
+        const fullKey: string = buildKey(name, namespace);
+        const expiresAt: number | undefined = isDate(expires) ? expires.getTime() : expires;
+        const record: string = JSON.stringify({
           value,
           ...(expires != null ? { expiresAt } : {}),
         });
         store.setItem(fullKey, record);
       },
 
-      remove: ({ name, namespace }) => {
-        const fullKey = buildKey(name, namespace);
+      remove: ({ name, namespace }): void => {
+        const fullKey: string = buildKey(name, namespace);
         store.removeItem(fullKey);
       },
 
       clear: () => store.clear(),
 
-      has: ({ name, namespace }) => {
+      has: ({ name, namespace }): boolean => {
         return this.createWebStorage(store).get(buildKey(name, namespace)) !== null;
       },
 
@@ -96,5 +102,5 @@ class QuokkaStorage {
   session: WebStorage = this.createWebStorage(sessionStorage);
 }
 
-const Storage = new QuokkaStorage();
-export default Storage;
+const storage: QuokkaStorage = new QuokkaStorage();
+export default storage;

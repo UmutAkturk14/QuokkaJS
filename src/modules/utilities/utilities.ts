@@ -44,11 +44,11 @@ class Utilities {
   }
 
   // Throttle function to limit how frequently a function can be invoked (at most once every "limit" milliseconds)
-  throttle(func: Function, limit: number): Function {
+  throttle<T extends unknown[]>(func: (...args: T) => void, limit: number): (...args: T) => void {
     let lastFunc: ReturnType<typeof setTimeout>;
     let lastRan: number;
 
-    return function (...args: unknown[]) {
+    return function (...args: T) {
       if (!lastRan) {
         func(...args);
         lastRan = Date.now();
@@ -92,8 +92,8 @@ class Utilities {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  mergeObjects<T>(...objects: T[]): T {
-    return Object.assign({}, ...objects);
+  mergeObjects<T extends object>(...objects: T[]): T {
+    return Object.assign({}, ...objects) as T;
   }
 
   isEmpty(value: unknown): boolean {
