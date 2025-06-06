@@ -1,363 +1,193 @@
-# Core Module Documentation
+# 📦 Core Class – Documentation
 
-The **Core Module** is the foundation of QuokkaJS, providing essential functionality for DOM manipulation, element selection, and data handling. It is designed to be lightweight, intuitive, and type-safe, making it a powerful tool for modern web development.
-
----
-
-## Table of Contents
-1. [Introduction](#introduction)
-2. [Installation](#installation)
-3. [Usage](#usage)
-   - [Initialization](#initialization)
-   - [Element Selection](#element-selection)
-   - [DOM Manipulation](#dom-manipulation)
-   - [Data Handling](#data-handling)
-   - [Element Traversal](#element-traversal)
-   - [Utility Methods](#utility-methods)
-4. [API Reference](#api-reference)
-5. [Examples](#examples)
-6. [Contributing](#contributing)
+The `Core` class provides a chainable, array-like interface for working with DOM elements, extending functionality with custom event management, DOM manipulation, and geometry utilities.
 
 ---
 
-## Introduction
-The **Core Module** provides a jQuery-like API with modern enhancements, powered by TypeScript. It allows you to:
-- Select and manipulate DOM elements.
-- Handle data attributes and text content.
-- Traverse and filter elements.
-- Chain methods for a fluent API.
+## 🧱 Constructor
 
----
 
-## Installation
-To use the Core Module, install QuokkaJS via npm:
-
-```bash
-npm install quokkajs
+```ts
+new Core(selector: string | HTMLElement | HTMLElement[], attributes?: Record<string, string>)
 ```
-Then, import the `$` function in your project:
+- `selector`:
+	- A CSS selector string (".class", "#id").
+	- A tag string (`<div>`) to create new elements.
+	- A single HTMLElement.
+	- An array of HTMLElements.
 
-```typescript
-import { $ } from 'quokkajs';
-```
+`attributes` (optional): Key-value pairs to set attributes or text on new elements.
 
----
+Returns a `Proxy` instance of `Core` with access to extended `DOM`, `eventManager`, and `geometry` modules.
 
-## Usage
+## 🔑 Properties
 
-### Initialization
+| Property       | Description                                     |
+| -------------- | ----------------------------------------------- |
+| `elements`     | Array of matched or created DOM elements        |
+| `eventManager` | Methods imported from the `eventManager` module |
+| `DOM`          | Methods imported from the `DOM` module          |
+| `geometry`     | Methods imported from the geometry module       |
+| [index]        | Array-like access to elements (e.g., node[1])   |
+| `length`       | Read-only number of matched elements            |
+|                |                                                 |
 
-The `$` function initializes a `Core` instance. It accepts:
+## 🧰 Core Methods
 
-- A **CSS selector** (e.g., `".class"`, `"#id"`).
+### `data(name?, value?)`
 
-- An **HTMLElement** or an array of **HTMLElements**.
+Get, set, or remove `data-*`attributes.
 
-- A **tag string** (e.g., `"<div>"`) to create new elements.
-
-
-```typescript
-// Initialize with a CSS selector
-const $divs = $('div');
-
-// Initialize with an HTMLElement
-const $element = $(document.getElementById('myElement'));
-
-// Create a new element with attributes
-const $newDiv = $('<div>', { id: 'newDiv', text: 'Hello, World!' });
+```ts
+core.data()                      // Get all data attributes
+core.data("key")                 // Get specific attribute
+core.data("key", "value")        // Set attribute
+core.data({ key: "value" })      // Set multiple attributes
+core.data({ key: null })         // Remove attribute
 ```
 
----
-### Element Selection
+### `each(callback)`
+Iterate over elements.
 
-The `Core` instance provides array-like behavior for selected elements. You can access elements by index or use methods like `first()`, `last()`, and `get()`.
-
-```typescript
-// Get/set attributes
-$divs.attr('data-test', 'value'); // Set attribute
-const attrValue = $divs.attr('data-test'); // Get attribute
-
-// Get/set text content
-$divs.text('New text'); // Set text
-const textContent = $divs.text(); // Get text
-
-// Get/set inner HTML
-const htmlContent = $divs.html(); // Get HTML
-
-// Get/set value
-const value = $divs.val(); // Get value
+```ts
+$('.elements').each((el, i) => { ... });
 ```
 
----
-### Data Handling
 
-The `data()` method allows you to get, set, or remove data attributes.
+### `map(callback)`
+Transform elements.
 
-```typescript
-// Get all data attributes
-const data = $divs.data();
-
-// Get a specific data attribute
-const specificData = $divs.data('key');
-
-// Set a data attribute
-$divs.data('key', 'value');
-
-// Set multiple data attributes
-$divs.data({ key1: 'value1', key2: 'value2' });
-
-// Remove a data attribute
-$divs.data('key', null);
+```ts
+$('.elements').map((el, i) => transformedEl);
 ```
 
----
-### Element Traversal
+### `filter(callback)`
+Filter elements.
 
-The Core Module provides methods for traversing and filtering elements, such as `each()`, `map()`, `filter()`, `add()`, and `remove()`.
 
-```typescript
-// Iterate over elements
-$divs.each((el, index) => {
-  console.log(`Element ${index}:`, el);
-});
-
-// Map elements to a new array
-const $mapped: Core = $divs.map((el: HTMLElement) => el.cloneNode(true));
-
-// Filter elements
-const $filtered: Core = $divs.filter((el: HTMLElement) => el.classList.contains('active'));
-
-// Add elements to the selection
-const $combined: Core = $divs.add('.newElements');
-
-// Remove elements from the selection
-const $updated: Core = $divs.remove('.unwantedElements');
+```ts
+$('.elements').filter((el, i) => el.classList.contains("visible"));
 ```
 
----
-### Utility Methods
+### `first(), last()`
+Get the first or last element in a new Core instance.
 
-The Core Module includes utility methods for checking element existence and emptiness.
-
-```typescript
-// Check if elements exist
-const exists: boolean = $divs.exists();
-
-// Check if the selection is empty
-const isEmpty: boolean = $divs.isEmpty();
-
-// Get the number of selected elements
-const length: number = $divs.length;
+```ts
+$('.elements').first();
+$('.elements').last();
 ```
 
-## API Reference
+## ✅ Checks
+- isEmpty() → true if no elements.
+- exists() → true if any elements exist.
 
-### `$(selector, attributes)`
+## ➕ Element Management
 
-Initializes a `Core` instance.
+### `add(selector | Core)`
+Append elements to current selection.
 
-- **Parameters**:
+### `remove()`
+Remove all elements from the DOM.
 
-    - `selector`: A CSS selector, `HTMLElement`, or array of `HTMLElement`.
+### `removeChild(index)`
+Remove the element at the given index.
 
-    - `attributes` (optional): An object of attributes for new elements.
+## 📎 Attributes
+### `attr(name: string, value?: string)`
+Get or set an attribute.
 
-- **Returns**: A `Core` instance.
-
-
----
-
-### Core Methods
-
-#### `data(name?, value?)`
-
-Gets, sets, or removes data attributes.
-
-- **Parameters**:
-
-    - `name` (optional): A string (attribute name) or object (key-value pairs).
-
-    - `value` (optional): The value to set or `null` to remove.
-
-- **Returns**: A string, object, or `Core` instance.
-
-
----
-
-#### `attr(name, value?)`
-
-Gets or sets an attribute.
-
-- **Parameters**:
-
-    - `name`: The attribute name.
-
-    - `value` (optional): The value to set.
-
-- **Returns**: A string or `Core` instance.
-
-
----
-
-#### `text(text?)`
-
-Gets or sets text content.
-
-- **Parameters**:
-
-    - `text` (optional): The text to set.
-
-- **Returns**: A string or `Core` instance.
-
-
----
-
-#### `html()`
-
-Gets the inner HTML of the first element.
-
-- **Returns**: A string.
-
-
----
-
-#### `val()`
-
-Gets the `value` attribute of the first element.
-
-- **Returns**: A string.
-
-
----
-
-#### `each(callback)`
-
-Iterates over selected elements.
-
-- **Parameters**:
-
-    - `callback`: A function that receives the element and index.
-
-- **Returns**: The `Core` instance.
-
-
----
-
-#### `map(callback)`
-
-Maps elements to a new array.
-
-- **Parameters**:
-
-    - `callback`: A function that transforms elements.
-
-- **Returns**: A new `Core` instance.
-
-
----
-
-#### `filter(callback)`
-
-Filters elements based on a condition.
-
-- **Parameters**:
-
-    - `callback`: A function that tests elements.
-
-- **Returns**: A new `Core` instance.
-
-
----
-
-#### `first()`
-
-Gets the first element in the selection.
-
-- **Returns**: A new `Core` instance.
-
-
----
-
-#### `last()`
-
-Gets the last element in the selection.
-
-- **Returns**: A new `Core` instance.
-
-
----
-
-#### `add(selector)`
-
-Adds elements to the selection.
-
-- **Parameters**:
-
-    - `selector`: A CSS selector or `Core` instance.
-
-- **Returns**: A new `Core` instance.
-
-
----
-
-#### `remove(selector)`
-
-Removes elements from the selection.
-
-- **Parameters**:
-
-    - `selector`: A CSS selector or `Core` instance.
-
-- **Returns**: A new `Core` instance.
-
-
----
-
-#### `exists()`
-
-Checks if elements exist.
-
-- **Returns**: A boolean.
-
-
----
-
-#### `isEmpty()`
-
-Checks if the selection is empty.
-
-- **Returns**: A boolean.
-
-
----
-
-## Examples
-
-### Example 1: Basic Usage
-
-```typescript
-const $divs = $('div');
-$divs.attr('data-test', 'value').text('Hello, World!');
+```ts
+$('#element').attr('newAttr', 'newAttrValue')
 ```
 
-### Example 2: Data Handling
+### `removeAttr(name)`
+Remove a specific attribute.
 
-
-```typescript
-$divs.data({ key1: 'value1', key2: 'value2' });
-const data = $divs.data('key1'); // 'value1'
+```ts
+$('#element').removeAttr('newAttr');
 ```
 
-### Example 3: Element Traversal
+## 📝 Content
+### `text() / text(value)`
+Get or set text content.
 
-```typescript
-$divs.each((el, index) => {
-  console.log(`Element ${index}:`, el);
-});
+### `html()`
+Get the innerHTML of the first element.
+
+### `val()`
+Get the value attribute.
+
+## 🎨 Class Handling
+
+```ts
+$('.element').addClass("active");
+$('.element').removeClass("hidden");
+$('.element').toggleClass("selected");
+$('.element').hasClass("loading"); // returns boolean
 ```
 
----
+### `classList()`
+Get the class attribute value of the first element.
 
-## Contributing
+## 📦 Tree Traversal
 
-Contributions are welcome! Please follow the [contribution guidelines](https://chat.deepseek.com/a/chat/s/CONTRIBUTING.md) to get started.
+### `children()`
+Get all children of the selected elements.
+
+### `parent()`
+Get immediate parents.
+
+### `parents()`
+Get all ancestors.
+
+### `siblings()`
+Get all sibling elements.
+
+## 🔍 Element Selection
+
+### `get(index: number, core: boolean = true)`
+Get an element by index. Return a Core instance or raw element.
+
+```ts
+$('.element').get(0); // Returns the element as a Core instance
+
+$('.element').get(0, false); // Returns the element as an HTMLElement
+```
+
+### `eq(index: number)`
+Return the Core instance for a specific index, supports negative indexes.
+
+```ts
+$('.element').eq(-5);
+```
+
+### `find(selector: string)`
+Find elements inside the selected elements.
+
+```ts
+$('.element').find('searcClass');
+```
+
+## 🔠 Identification & Match
+
+### `id(identifier?: string)`
+Check if the first element matches the ID (if argument is provided). Otherwise, return the ID of the first element.
+
+```ts
+$('#element').id(); // Returns the ID attribute of the element
+$('#element').id('param'); // Checks if the ID attribute of the element is 'param', then returns a boolean that turns true if the ID matches
+```
+
+### `is(selector: string | Element | ((el: HTMLElement) => boolean))`
+Check if the first element matches the given selector, element, or callback condition.
+
+## 🔁 Chainable Utilities via Proxy
+Your instance can call additional methods from: `DOM`, `eventManager` or `geometry` modules
+
+Example:
+
+```ts
+$('#element').addClass("visible").on("click", callback).scrollTop(100);
+```
+
+Here, `on()` function is found in the `eventManager` module, and `scrollTop()` is in `geometry`. To keep things chainable and jQuery-like to make it more intuitive, these are called by the `Core` module. But to keep things as modular and scalable as possible, they have their own modules.
