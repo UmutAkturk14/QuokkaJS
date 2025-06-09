@@ -100,11 +100,7 @@ export interface WebStorageEntry {
 
 export interface WebStorage {
   /** Retrieve a value */
-  get(params: string):
-    | string
-    | object
-    | boolean
-    | null;
+  get(params: string): object | ParsedType;
 
   /** Store a value */
   set(entry: WebStorageEntry): void;
@@ -122,3 +118,6 @@ export interface WebStorage {
   entries(): [string, string][];
   length(): number;
 }
+
+
+export type ParsedType = string | object | boolean | null;
