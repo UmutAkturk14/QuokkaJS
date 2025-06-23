@@ -18,6 +18,8 @@ Appends a child element to the selected elements.
 
 - **Parameters:**
 
+  - `child` (`string | HTMLElement | Core`): Element or HTML string to append.
+
 - **Returns:** `Core` — for chaining.
 
 ```ts
@@ -33,12 +35,6 @@ Prepends a child element to the selected elements.
 - **Parameters:** Same as `append`.
 
 - **Returns:** `Core`
-
-<<<<<<< HEAD
-
-=======
-
-> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 
 ---
 
@@ -65,11 +61,7 @@ Triggers focus on the selected elements (e.g., inputs, buttons).
 Triggers a click event on the selected elements.
 
 ```ts
-<<<<<<< HEAD
-$('.element').click()
-=======
 $(".element").click();
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -102,18 +94,6 @@ Creates a glowing pulsing animation using `box-shadow` and `text-shadow`.
 
 - **Optional `colors`:**
 
-<<<<<<< HEAD
-
-````ts
-const glowColours = {
-	boxShadow: 'rgba(...)',
-	textShadow: 'rgba(...)',
-	boxShadowPulse: 'rgba(...)',
-	textShadowPulse: 'rgba(...)'
-};
-
-$('.element').pulseGlow(600, 20, glowColours);
-=======
 ```ts
 const glowColours = {
   boxShadow: "rgba(...)",
@@ -123,8 +103,7 @@ const glowColours = {
 };
 
 $(".element").pulseGlow(600, 20, glowColours);
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-````
+```
 
 ---
 
@@ -133,11 +112,7 @@ $(".element").pulseGlow(600, 20, glowColours);
 A bouncy scaling pulse animation.
 
 ```ts
-<<<<<<< HEAD
-$('.element').pulse()
-=======
 $(".element").pulse();
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -233,12 +208,7 @@ An advanced animation that fades and moves the element depending on the user scr
 
 If the scroll up fade is `true`, then the animation will work on scroll up, too, meaning, it will keep appearing every time a user scrolls up and down. Otherwise, it will animate once on scroll down and the elements will stay there.
 
-<<<<<<< HEAD
 Two kinds of animation type, `fade` and `slide`. The default option is `fade`.
-=======
-Two kinds of animation type, `fade` and `slide`. The default option is `fade`.
-
-> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 
 `selectors` are the parameter that sets how elements get the animation.
 
