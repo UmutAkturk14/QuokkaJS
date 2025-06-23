@@ -8,7 +8,11 @@ This module is especially useful for frontend projects where responsiveness, dev
 > This utility is available via the `quokka-js` package.
 
 ```ts
+<<<<<<< HEAD
 import { Utilities } from 'quokka-js';
+=======
+import { Utilities } from "quokka-js";
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -31,7 +35,10 @@ These methods check the nature or type of a value.
 
 - `isValidEmail(email: string): boolean`
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ### ⚙️ Optimizing Functions
 
 Use these to improve performance by controlling how frequently functions run.
@@ -40,7 +47,10 @@ Use these to improve performance by controlling how frequently functions run.
 
 - `throttle(func, limit): (...args) => void`
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ### 🧩 Organizing Functions
 
 For cloning and flattening deeply nested objects or arrays.
@@ -51,14 +61,20 @@ For cloning and flattening deeply nested objects or arrays.
 
 - `mergeObjects<T extends object>(...objects: T[]): T`
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ### 🔢 Generation Functions
 
 - `generateUUID(): string`
 
 - `randomInt(min?: number, max?: number): number`
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ### 🌐 Environment / Device Functions
 
 - `isMobile(): boolean`
@@ -83,19 +99,28 @@ For cloning and flattening deeply nested objects or arrays.
 
 - `getReferrer(): string | null`
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ### 🔍 Getter Functions
 
 - `getQueryParam(param: string, url?: string): string | null`
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ### 🧬 Encoding / Decoding
 
 - `base64Encode(value: string): string`
 
 - `base64Decode(value: string): string`
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ---
 
 ## 🧪 Method Details
@@ -120,7 +145,12 @@ Returns `true` if the value is falsy.
 Delays the function call until after a specified delay. If `immediate` is true, triggers the function at the start.
 
 ```ts
+<<<<<<< HEAD
 const debouncedFn = Utilities.debounce(() => console.log('Run'), 300); debouncedFn(); // Only runs after 300ms
+=======
+const debouncedFn = Utilities.debounce(() => console.log("Run"), 300);
+debouncedFn(); // Only runs after 300ms
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -130,7 +160,12 @@ const debouncedFn = Utilities.debounce(() => console.log('Run'), 300); debounced
 Ensures the function is invoked at most once in every time window (`limit` ms).
 
 ```ts
+<<<<<<< HEAD
 const throttledFn = Utilities.throttle(() => console.log('Called'), 500); throttledFn(); // Called at most once every 500ms
+=======
+const throttledFn = Utilities.throttle(() => console.log("Called"), 500);
+throttledFn(); // Called at most once every 500ms
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -187,7 +222,10 @@ Utilities.randomInt(10, 20); // e.g., 13
 
 Shallow merges multiple objects into a new one.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```ts
 Utilities.mergeObjects({ a: 1 }, { b: 2 }); // { a: 1, b: 2 }
 ```
@@ -208,10 +246,16 @@ Utilities.isEmpty([]); // true Utilities.isEmpty({}); // true Utilities.isEmpty(
 
 Gets a query parameter's value from a URL (defaults to `window.location.href`).
 
+<<<<<<< HEAD
 
 ```ts
 // URL: http://example.com?foo=bar
 Utilities.getQueryParam('foo'); // 'bar'
+=======
+```ts
+// URL: http://example.com?foo=bar
+Utilities.getQueryParam("foo"); // 'bar'
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -251,7 +295,11 @@ Returns the current browser name (Chrome, Firefox, Safari, Edge, Opera, or Unkno
 Returns a Promise resolving to `{ lat, lon }` using the Geolocation API.
 
 ```ts
+<<<<<<< HEAD
 Utilities.getCurrentCoordinates().then(coords => console.log(coords.lat));
+=======
+Utilities.getCurrentCoordinates().then((coords) => console.log(coords.lat));
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -290,7 +338,11 @@ Returns the document referrer if available.
 Encodes a string to Base64.
 
 ```ts
+<<<<<<< HEAD
 Utilities.base64Encode('hello'); // aGVsbG8=
+=======
+Utilities.base64Encode("hello"); // aGVsbG8=
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -299,9 +351,14 @@ Utilities.base64Encode('hello'); // aGVsbG8=
 
 Decodes a Base64 string.
 
+<<<<<<< HEAD
 
 ```ts
 Utilities.base64Decode('aGVsbG8='); // hello
+=======
+```ts
+Utilities.base64Decode("aGVsbG8="); // hello
+>>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---

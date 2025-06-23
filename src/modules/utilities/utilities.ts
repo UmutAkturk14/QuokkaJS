@@ -203,7 +203,30 @@ class Utilities {
     return atob(value);
   }
 
+  measureTask(func: () => void): { time: number, result: unknown } {
+    const start: number = performance.now();
+    const result: unknown = func();
+    const end: number = performance.now();
+    return { time: end - start, result };
+  }
 
+  isValidURL(url: string): boolean {
+    try {
+      new URL(url);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  getRandomString(length: number = 10): string {
+    const characters: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result: string = '';
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  }
 }
 
 const utils: Utilities = new Utilities();
