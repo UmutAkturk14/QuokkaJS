@@ -214,4 +214,4 @@ Example:
 $("#element").addClass("visible").on("click", callback).scrollTop(100);
 ```
 
-H
+Here, `on()` function is found in the `eventManager` module, and `scrollTop()` is in `geometry`. To keep things chainable and jQuery-like to make it more intuitive, these are called by the `Core` module. But to keep things as modular and scalable as possible, they have their own modules.
