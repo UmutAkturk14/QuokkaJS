@@ -5,11 +5,7 @@ The `DOM` module provides chainable utility methods for DOM manipulation and ani
 ## Import
 
 ```ts
-<<<<<<< HEAD
-import { $ } from 'quokka-js';
-=======
 import { $ } from "quokka-js";
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -22,21 +18,11 @@ Appends a child element to the selected elements.
 
 - **Parameters:**
 
-<<<<<<< HEAD - `child` (`string | HTMLElement | Core`): Element or HTML string to append.
-
-- **Returns:** `Core` — for chaining.
-
-````ts
-$('.element').append('<p>Hello</p>');
-=======
-  - `child` (`string | HTMLElement | Core`): Element or HTML string to append.
-
 - **Returns:** `Core` — for chaining.
 
 ```ts
 $(".element").append("<p>Hello</p>");
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-````
+```
 
 ---
 
