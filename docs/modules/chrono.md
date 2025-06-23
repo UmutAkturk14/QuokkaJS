@@ -245,10 +245,6 @@ Returns a detailed breakdown of the time left.
 
 **Example:**
 
-ts
-
-CopyEdit
-
 ```ts
 Chrono.getExpiryDiff(Date.now() + 3661000);
 /* {   diff: 3661000,   isExpired: false,   days: 0,   hours: 1,   minutes: 1,   seconds: 1 } */
@@ -266,4 +262,5 @@ Returns a human-readable expiry string.
 
 ```ts
 Chrono.formatExpiry(Date.now() + 60000); // "Expires in 1 minute" Chrono.formatExpiry(Date.now() - 2000);  // "Expired just now"
+`
 ```
