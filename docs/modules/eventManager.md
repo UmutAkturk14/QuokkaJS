@@ -22,28 +22,15 @@ Registers an event listener on all elements within the Core instance.
 
 - `callback`: The function to call when the event is triggered.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 **Returns:**
 
 - `Core`: For method chaining.
 
-<<<<<<< HEAD
-
-**Usage:**
-
-```ts
-$('.btn').on('click', (e) => console.log('Clicked'));
-$('.box').on('mouseover.namespace', handleHover);
-=======
 **Usage:**
 
 ```ts
 $(".btn").on("click", (e) => console.log("Clicked"));
 $(".box").on("mouseover.namespace", handleHover);
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -58,28 +45,15 @@ Removes a previously bound event listener. If no callback is provided, removes a
 
 - `callback` _(optional)_: The function reference to remove.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 **Returns:**
 
 - `Core`: For method chaining.
 
-<<<<<<< HEAD
-
-**Usage:**
-
-```ts
-$('.btn').off('click');
-$('.box').off('mouseover.namespace', handleHover);
-=======
 **Usage:**
 
 ```ts
 $(".btn").off("click");
 $(".box").off("mouseover.namespace", handleHover);
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -94,26 +68,14 @@ Adds a one-time event listener to all elements. The callback is automatically re
 
 - `callback`: The function to execute once.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 **Returns:**
 
 - `Core`: For method chaining.
 
-<<<<<<< HEAD
-
-**Usage:**
-
-```ts
-$('.alert').once('mouseenter', () => alert('You hovered once'));
-=======
 **Usage:**
 
 ```ts
 $(".alert").once("mouseenter", () => alert("You hovered once"));
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -128,26 +90,14 @@ Programmatically triggers a custom event on all selected elements.
 
 - `detail` _(optional)_: Any data you want to pass to the event.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 **Returns:**
 
 - `Core`: For method chaining.
 
-<<<<<<< HEAD
-
-**Usage:**
-
-```ts
-$('.card').trigger('customEvent', { foo: 'bar' });
-=======
 **Usage:**
 
 ```ts
 $(".card").trigger("customEvent", { foo: "bar" });
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -159,13 +109,8 @@ Event strings can include namespaces (e.g., `click.modal`) to allow fine-grained
 **Examples:**
 
 ```ts
-<<<<<<< HEAD
-$('.btn').on('click.modal', openModal);
-$('.btn').off('click.modal');
-=======
 $(".btn").on("click.modal", openModal);
 $(".btn").off("click.modal");
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -187,17 +132,10 @@ Utility function that splits a namespaced event string into its base event and o
 The module is integrated via the `Core` class proxy.
 
 ```ts
-<<<<<<< HEAD
-import { $ } from 'quokka-js';
-
-$('.item').on('click', () => console.log('Item clicked'));
-$('.item').trigger('click');
-=======
 import { $ } from "quokka-js";
 
 $(".item").on("click", () => console.log("Item clicked"));
 $(".item").trigger("click");
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -222,8 +160,4 @@ interface HandlerEntry {
 
 - Namespaced event support is limited to `on`, `off`, and `once`.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ---

@@ -17,8 +17,9 @@ Adds the specified number of minutes to the provided date (or current time by de
 <<<<<<< HEAD
 
 =======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-**Returns:** `Date` – The resulting Date.
+
+> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+> > > > > > > **Returns:** `Date` – The resulting Date.
 
 **Example:**
 
@@ -42,8 +43,9 @@ Adds hours to a given date.
 <<<<<<< HEAD
 
 =======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-**Returns:** `Date`
+
+> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+> > > > > > > **Returns:** `Date`
 
 **Example:**
 
@@ -66,8 +68,9 @@ Adds days to a given date.
 <<<<<<< HEAD
 
 =======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-**Returns:** `Date`
+
+> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+> > > > > > > **Returns:** `Date`
 
 **Example:**
 
@@ -90,8 +93,9 @@ Adds weeks to a given date.
 <<<<<<< HEAD
 
 =======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-**Returns:** `Date`
+
+> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+> > > > > > > **Returns:** `Date`
 
 **Example:**
 
@@ -114,15 +118,18 @@ Adds seconds to a given date.
 <<<<<<< HEAD
 
 =======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-**Returns:** `Date`
+
+> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+> > > > > > > **Returns:** `Date`
 
 **Example:**
 
 <<<<<<< HEAD
 
 =======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+
+> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+
 ```ts
 Chrono.addSeconds(45); // adds 45 seconds
 ```
@@ -142,8 +149,9 @@ Adds milliseconds to a given date.
 <<<<<<< HEAD
 
 =======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-**Returns:** `Date`
+
+> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+> > > > > > > **Returns:** `Date`
 
 **Example:**
 
@@ -170,8 +178,9 @@ Checks if a given expiry time is in the past.
 <<<<<<< HEAD
 
 =======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-**Returns:** `boolean` – `true` if expired.
+
+> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+> > > > > > > **Returns:** `boolean` – `true` if expired.
 
 **Example:**
 
@@ -196,8 +205,9 @@ Returns how much time is left until expiry.
 <<<<<<< HEAD
 
 =======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-**Returns:** `number` – Time remaining in specified unit.
+
+> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+> > > > > > > **Returns:** `number` – Time remaining in specified unit.
 
 **Example:**
 
@@ -261,10 +271,6 @@ Creates an expiry timestamp based on time from now.
 
 - `options?` – Object with optional durations.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 **Returns:** `Date`
 
 **Example:**
@@ -287,15 +293,7 @@ Returns a detailed breakdown of the time left.
 
 - `days`, `hours`, `minutes`, `seconds` – Breakdown
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 **Example:**
-
-ts
-
-CopyEdit
 
 ```ts
 Chrono.getExpiryDiff(Date.now() + 3661000);

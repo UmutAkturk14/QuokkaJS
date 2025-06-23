@@ -11,10 +11,6 @@ Includes support for:
 
 - Typed helper methods (`get`, `set`, `remove`, `clear`, etc.)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ---
 
 ### 🔧 Constructor
@@ -26,11 +22,7 @@ Creates a new instance and immediately removes all expired items from both `loca
 **Example:**
 
 ```ts
-<<<<<<< HEAD
-import { Storage } from 'quokka-js'
-=======
 import { Storage } from "quokka-js";
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -57,10 +49,6 @@ Returns a structured interface for a given storage type (`localStorage` or `sess
 
 - `store` – Either `localStorage` or `sessionStorage`.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 **Returns:** `WebStorage` – An object with `get`, `set`, `remove`, `clear`, `has`, `keys`, `values`, `entries`, `length`.
 
 This is basically used to keep things clean, not repeat them all between `localStorage` and `sessionStorage`. Any update done here would take effect in them both. Additionally but not probably, it is possible to add another storage depending on how we would need to extend the module's functionalities.
@@ -75,10 +63,6 @@ The `WebStorage` interface is returned by `QuokkaStorage.createWebStorage()`. It
 
 - `storage.session` (for `sessionStorage`)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ---
 
 ### `WebStorage.get(key: string): ParsedType`
@@ -90,11 +74,7 @@ Gets and parses the stored value by key. Automatically removes the item if it ha
 **Example:**
 
 ```ts
-<<<<<<< HEAD
-storage.local.get('theme'); // "dark", true, or null
-=======
 storage.local.get("theme"); // "dark", true, or null
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -113,29 +93,12 @@ Stores a value under a key with optional expiration and namespacing.
 
 - `entry.namespace?` – Optional namespace prefix.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 **Returns:** `void`
 
 **Example:**
 
 ```ts
 storage.local.set({
-<<<<<<< HEAD
-	name: 'theme',
-	value: 'dark'
-});
-
-storage.session.set({
-	name: 'cart',
-	value: {
-		items: [1, 2]
-	},
-	expires: Date.now() + 1000 * 60 * 30, // expires in 30 min
-	namespace: 'shop'
-=======
   name: "theme",
   value: "dark",
 });
@@ -147,7 +110,6 @@ storage.session.set({
   },
   expires: Date.now() + 1000 * 60 * 30, // expires in 30 min
   namespace: "shop",
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 });
 ```
 
@@ -160,11 +122,7 @@ Removes a value by key and optional namespace.
 **Example:**
 
 ```ts
-<<<<<<< HEAD
-storage.local.remove({ name: 'theme' });
-=======
 storage.local.remove({ name: "theme" });
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -189,16 +147,9 @@ Checks if a key exists and is not expired.
 
 **Example:**
 
-<<<<<<< HEAD
-
-```ts
-if (storage.local.has({ name: 'user' })) {
-	console.log('User is cached');
-=======
 ```ts
 if (storage.local.has({ name: "user" })) {
   console.log("User is cached");
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 }
 ```
 
@@ -238,11 +189,7 @@ Returns `[key, rawValue]` pairs.
 
 ```ts
 for (const [key, value] of storage.local.entries()) {
-<<<<<<< HEAD
-	console.log(key, value);
-=======
   console.log(key, value);
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 }
 ```
 
@@ -270,37 +217,11 @@ These are internal and not exported directly, but are used in the module:
 
 - `isDate(value: unknown): value is Date` – Type guard for `Date`.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ---
 
 ## 📦 Usage Overview
 
 ```ts
-<<<<<<< HEAD
-import storage from './path/to/storage';
-
-// Set
-storage.local.set({
-	name: 'token',
-	value: 'abc123',
-	expires: new Date(Date.now() + 60000)
-});
-
-// Get
-const token = storage.local.get({name: 'token'});
-
-// Remove
-Storage.local.remove({
-	name: 'token'
-});
-
-// Check
-if (storage.local.has({ name: 'token' })) {
-	console.log('Token still valid');
-=======
 import storage from "./path/to/storage";
 
 // Set
@@ -321,6 +242,5 @@ Storage.local.remove({
 // Check
 if (storage.local.has({ name: "token" })) {
   console.log("Token still valid");
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 }
 ```

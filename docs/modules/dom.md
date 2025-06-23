@@ -22,13 +22,11 @@ Appends a child element to the selected elements.
 
 - **Parameters:**
 
-<<<<<<< HEAD
-    - `child` (`string | HTMLElement | Core`): Element or HTML string to append.
+<<<<<<< HEAD - `child` (`string | HTMLElement | Core`): Element or HTML string to append.
 
 - **Returns:** `Core` — for chaining.
 
-
-```ts
+````ts
 $('.element').append('<p>Hello</p>');
 =======
   - `child` (`string | HTMLElement | Core`): Element or HTML string to append.
@@ -38,7 +36,7 @@ $('.element').append('<p>Hello</p>');
 ```ts
 $(".element").append("<p>Hello</p>");
 >>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-```
+````
 
 ---
 
@@ -53,7 +51,9 @@ Prepends a child element to the selected elements.
 <<<<<<< HEAD
 
 =======
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+
+> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+
 ---
 
 ### `before(child)`
@@ -118,7 +118,7 @@ Creates a glowing pulsing animation using `box-shadow` and `text-shadow`.
 
 <<<<<<< HEAD
 
-```ts
+````ts
 const glowColours = {
 	boxShadow: 'rgba(...)',
 	textShadow: 'rgba(...)',
@@ -138,7 +138,7 @@ const glowColours = {
 
 $(".element").pulseGlow(600, 20, glowColours);
 >>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
-```
+````
 
 ---
 
@@ -234,17 +234,9 @@ Applies inline CSS to elements.
 
 - **Usage:**
 
-<<<<<<< HEAD
-
-
-```ts
-$('.element').css('color', 'red');
-$('.element').css({ color: 'blue', fontSize: '14px' });
-=======
 ```ts
 $(".element").css("color", "red");
 $(".element").css({ color: "blue", fontSize: "14px" });
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 ---
@@ -256,21 +248,18 @@ An advanced animation that fades and moves the element depending on the user scr
 If the scroll up fade is `true`, then the animation will work on scroll up, too, meaning, it will keep appearing every time a user scrolls up and down. Otherwise, it will animate once on scroll down and the elements will stay there.
 
 <<<<<<< HEAD
-Two kinds of animation type, `fade` and  `slide`. The default option is `fade`.
+Two kinds of animation type, `fade` and `slide`. The default option is `fade`.
 =======
 Two kinds of animation type, `fade` and `slide`. The default option is `fade`.
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
+
+> > > > > > > dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 
 `selectors` are the parameter that sets how elements get the animation.
 
 **NOTE:** This part is going to be made more intuitive like;
 
 ```ts
-<<<<<<< HEAD
-$('.element').directionalFade();
-=======
 $(".element").directionalFade();
->>>>>>> dfa9ef3a9d52739fc989d530383bf1fc6aaab4cc
 ```
 
 should just work. Right now, it works, but not on the element selected in the `Core` instance. This is going to be reworked.
