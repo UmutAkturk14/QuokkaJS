@@ -1,4 +1,5 @@
-import type { Core } from '@modules/core';
+import type { Core } from "@modules/core";
+import { QueryParams } from "./types";
 
 /**
  * DOM module interfaces
@@ -19,12 +20,17 @@ export interface DOMMethods {
   blur(this: Core): Core;
   zoomIn(this: Core, duration?: number, scale?: number): Core;
   zoomOut(this: Core, duration?: number): Core;
-  pulseGlow(this: Core, duration?: number, intensity?: number, colors?: {
-    boxShadow: string;
-    textShadow: string;
-    boxShadowPulse: string;
-    textShadowPulse: string;
-  }): Core;
+  pulseGlow(
+    this: Core,
+    duration?: number,
+    intensity?: number,
+    colors?: {
+      boxShadow: string;
+      textShadow: string;
+      boxShadowPulse: string;
+      textShadowPulse: string;
+    }
+  ): Core;
   pulse(this: Core, duration?: number, scale?: number): Core;
   bounce(this: Core, duration?: number, height?: number): Core;
   shake(this: Core, duration?: number, intensity?: number): Core;
@@ -44,7 +50,12 @@ export interface DOMMethods {
   toggleVisibility(this: Core): Core;
   visible(this: Core): Core;
   invisible(this: Core): Core;
-  directionalFade(this: Core, scrollUpFade: boolean, animationType: 'fade' | 'slide', selectors: string): Core;
+  directionalFade(
+    this: Core,
+    scrollUpFade: boolean,
+    animationType: "fade" | "slide",
+    selectors: string
+  ): Core;
 }
 
 export interface GlowColors {
@@ -119,5 +130,40 @@ export interface WebStorage {
   length(): number;
 }
 
-
 export type ParsedType = string | object | boolean | null;
+
+export interface URLMeta {
+  tld: string | null;
+  sld: string | null;
+  subdomain: string | null;
+  queryParamCount: number;
+  hasTrailingSlash: boolean;
+  fileExtension: string | null;
+  isLocalhost: boolean;
+  isIPAddress: boolean;
+  normalized: string;
+}
+
+export interface ParsedURL {
+  href: string;
+  origin: string;
+  protocol: string;
+  username: string | null;
+  password: string | null;
+  host: string;
+  hostname: string;
+  port: string | null;
+  pathname: string;
+  search: string;
+  searchParams: QueryParams;
+  hash: string;
+  file: string | null;
+  pathSegments: string[];
+  isSecure: boolean;
+  meta: URLMeta;
+}
+
+export interface ParseURLError {
+  error: string;
+  details: string;
+}
