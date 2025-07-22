@@ -115,6 +115,7 @@ export interface WebStorage {
 
   /** Store a value */
   set(entry: WebStorageEntry): void;
+  update(entry: WebStorageEntry): void;
 
   /** Remove a key */
   remove(params: Pick<WebStorageEntry, "name" | "namespace">): void;
