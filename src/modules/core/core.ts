@@ -1,7 +1,7 @@
-import { eventManager } from "@modules/eventManager";
-import { DOM } from "@modules/dom"
-import { geometry } from "@modules/geometry"
-import type { DOMMethods, GeometryMethods } from "@utils/types";
+import { eventManager } from "../eventManager";
+import { DOM } from "../dom";
+import { geometry } from "../geometry";
+import type { DOMMethods, GeometryMethods } from "../../utils/types";
 
 /**
  * Core functionality of the library.

@@ -1,7 +1,13 @@
-import { Core } from "@modules/core";
-import type { DOMMethods } from "@utils/types";
-import * as animations from '@utils/animations';
-import * as advancedAnimations from '@utils/animations';
+import type { Core } from "../core";
+import type { DOMMethods } from "../../utils/types";
+import * as animations from '../../utils/animations';
+import * as advancedAnimations from '../../utils/animations';
+
+type CoreLike = Pick<Core, "elements">;
+
+function isCoreLike(value: unknown): value is CoreLike {
+  return typeof value === "object" && value !== null && Array.isArray((value as CoreLike).elements);
+}
 
 const {
   zoomIn,
@@ -74,7 +80,7 @@ function insertAt(
 
   } else {
     const elements: HTMLElement[] =
-      child instanceof Core ? child.elements : [child];
+      isCoreLike(child) ? child.elements : [child];
 
     this.each((el: HTMLElement) => {
       elements.forEach((childEl: HTMLElement) => {

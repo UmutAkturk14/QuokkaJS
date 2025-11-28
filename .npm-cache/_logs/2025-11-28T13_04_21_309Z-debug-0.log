@@ -1,0 +1,44 @@
+0 verbose cli /home/zookeeper/.nvm/versions/node/v20.17.0/bin/node /home/zookeeper/.nvm/versions/node/v20.17.0/bin/npm
+1 info using npm@11.5.2
+2 info using node@v20.17.0
+3 silly config load:file:/home/zookeeper/.nvm/versions/node/v20.17.0/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS/.npmrc
+5 silly config load:file:/home/zookeeper/.npmrc
+6 silly config load:file:/home/zookeeper/.nvm/versions/node/v20.17.0/etc/npmrc
+7 verbose title npm publish
+8 verbose argv "publish" "--access" "public"
+9 verbose logfile logs-max:10 dir:/home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS/.npm-cache/_logs/2025-11-28T13_04_21_309Z-
+10 verbose logfile /home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS/.npm-cache/_logs/2025-11-28T13_04_21_309Z-debug-0.log
+11 silly logfile done cleaning log files
+12 verbose publish [ '.' ]
+13 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+14 notice
+15 notice 📦  quokka-toolkit@0.1.0
+16 notice Tarball Contents
+17 notice 1.1kB LICENSE
+17 notice 4.2kB README.md
+17 notice 10.0kB dist/main.d.ts
+17 notice 57.8kB dist/quokka.cjs.js
+17 notice 57.7kB dist/quokka.es.js
+17 notice 64.3kB dist/quokka.iife.js
+17 notice 1.5kB package.json
+18 notice Tarball Details
+19 notice name: quokka-toolkit
+20 notice version: 0.1.0
+21 notice filename: quokka-toolkit-0.1.0.tgz
+22 notice package size: 41.8 kB
+23 notice unpacked size: 196.6 kB
+24 notice shasum: e0ba0d49d7100ecd8571f2d414f5b188998656b8
+25 notice integrity: sha512-TalQ4LFApiK8q[...]dOrjhvJ72RtfQ==
+26 notice total files: 7
+27 notice
+28 http fetch GET 404 https://registry.npmjs.org/quokka-toolkit 775ms (cache skip)
+29 http fetch GET 404 https://registry.npmjs.org/quokka-toolkit 666ms (cache skip)
+30 notice Publishing to https://registry.npmjs.org/ with tag latest and public access
+31 http fetch PUT 200 https://registry.npmjs.org/quokka-toolkit 2158ms
+32 verbose cwd /home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS
+33 verbose os Linux 6.14.0-36-generic
+34 verbose node v20.17.0
+35 verbose npm  v11.5.2
+36 verbose exit 0
+37 info ok

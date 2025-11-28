@@ -1,4 +1,4 @@
-import type { Core } from "@modules/core";
+import type { Core } from "../../modules/core";
 
 const DEFAULT_DIRECTIONAL_FADE_SELECTOR: string = `
   section, article, div, p, span, h1, h2, h3, h4, h5, h6,

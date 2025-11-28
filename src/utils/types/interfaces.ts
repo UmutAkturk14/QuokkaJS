@@ -1,4 +1,4 @@
-import type { Core } from "@modules/core";
+import type { Core } from "../../modules/core";
 import { QueryParams } from "./types";
 
 /**

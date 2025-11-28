@@ -1,0 +1,64 @@
+0 verbose cli /home/zookeeper/.nvm/versions/node/v20.17.0/bin/node /home/zookeeper/.nvm/versions/node/v20.17.0/bin/npm
+1 info using npm@11.5.2
+2 info using node@v20.17.0
+3 silly config load:file:/home/zookeeper/.nvm/versions/node/v20.17.0/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS/.npmrc
+5 silly config load:file:/home/zookeeper/.npmrc
+6 silly config load:file:/home/zookeeper/.nvm/versions/node/v20.17.0/etc/npmrc
+7 verbose title npm publish
+8 verbose argv "publish" "--access" "public"
+9 verbose logfile logs-max:10 dir:/home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS/.npm-cache/_logs/2025-11-28T13_02_48_483Z-
+10 verbose logfile /home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS/.npm-cache/_logs/2025-11-28T13_02_48_483Z-debug-0.log
+11 silly logfile done cleaning log files
+12 verbose publish [ '.' ]
+13 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+14 warn publish npm auto-corrected some errors in your package.json when publishing.  Please run "npm pkg fix" to address these errors.
+15 warn publish errors corrected:
+15 warn publish "repository.url" was normalized to "git+https://github.com/UmutAkturk14/quokka-js.git"
+16 notice
+17 notice 📦  quokka-js@0.1.0
+18 notice Tarball Contents
+19 notice 1.1kB LICENSE
+19 notice 4.2kB README.md
+19 notice 10.0kB dist/main.d.ts
+19 notice 57.8kB dist/quokka.cjs.js
+19 notice 57.7kB dist/quokka.es.js
+19 notice 64.3kB dist/quokka.iife.js
+19 notice 1.5kB package.json
+20 notice Tarball Details
+21 notice name: quokka-js
+22 notice version: 0.1.0
+23 notice filename: quokka-js-0.1.0.tgz
+24 notice package size: 41.8 kB
+25 notice unpacked size: 196.6 kB
+26 notice shasum: 3ec9df955a2b832a3b211cb6356f942c895595c0
+27 notice integrity: sha512-5vKQEuY25ZOCO[...]RjRLp4MTDqqZw==
+28 notice total files: 7
+29 notice
+30 http fetch GET 404 https://registry.npmjs.org/quokka-js 812ms (cache skip)
+31 http fetch GET 404 https://registry.npmjs.org/quokka-js 670ms (cache skip)
+32 notice Publishing to https://registry.npmjs.org/ with tag latest and public access
+33 http fetch PUT 403 https://registry.npmjs.org/quokka-js 576ms
+34 verbose stack HttpErrorGeneral: 403 Forbidden - PUT https://registry.npmjs.org/quokka-js - Package name too similar to existing package quokkajs; try renaming your package to '@umutakturk/quokka-js' and publishing with 'npm publish --access=public' instead
+34 verbose stack     at /home/zookeeper/.nvm/versions/node/v20.17.0/lib/node_modules/npm/node_modules/npm-registry-fetch/lib/check-response.js:103:15
+34 verbose stack     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+34 verbose stack     at async publish (/home/zookeeper/.nvm/versions/node/v20.17.0/lib/node_modules/npm/node_modules/libnpmpublish/lib/publish.js:53:15)
+34 verbose stack     at async otplease (/home/zookeeper/.nvm/versions/node/v20.17.0/lib/node_modules/npm/lib/utils/auth.js:8:12)
+34 verbose stack     at async #publish (/home/zookeeper/.nvm/versions/node/v20.17.0/lib/node_modules/npm/lib/commands/publish.js:188:7)
+34 verbose stack     at async Publish.exec (/home/zookeeper/.nvm/versions/node/v20.17.0/lib/node_modules/npm/lib/commands/publish.js:47:5)
+34 verbose stack     at async Npm.exec (/home/zookeeper/.nvm/versions/node/v20.17.0/lib/node_modules/npm/lib/npm.js:208:9)
+34 verbose stack     at async module.exports (/home/zookeeper/.nvm/versions/node/v20.17.0/lib/node_modules/npm/lib/cli/entry.js:67:5)
+35 verbose statusCode 403
+36 verbose pkgid quokka-js@0.1.0
+37 error code E403
+38 error 403 403 Forbidden - PUT https://registry.npmjs.org/quokka-js - Package name too similar to existing package quokkajs; try renaming your package to '@umutakturk/quokka-js' and publishing with 'npm publish --access=public' instead
+39 error 403 In most cases, you or one of your dependencies are requesting
+39 error 403 a package version that is forbidden by your security policy, or
+39 error 403 on a server you do not have access to.
+40 verbose cwd /home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS
+41 verbose os Linux 6.14.0-36-generic
+42 verbose node v20.17.0
+43 verbose npm  v11.5.2
+44 verbose exit 1
+45 verbose code 1
+46 error A complete log of this run can be found in: /home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS/.npm-cache/_logs/2025-11-28T13_02_48_483Z-debug-0.log

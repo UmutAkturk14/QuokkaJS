@@ -1,5 +1,5 @@
 {
-  "name": "quokka-js",
+  "name": "quokka-toolkit",
   "version": "0.1.0",
   "private": false,
   "type": "module",
@@ -48,7 +48,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/UmutAkturk14/quokka-js"
+    "url": "git+https://github.com/UmutAkturk14/quokka-js.git"
   },
   "description": "Quokka JS - A modern modular TypeScript library inspired by jQuery, powered with other various modules.",
   "exports": {

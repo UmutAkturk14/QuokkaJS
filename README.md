@@ -1,12 +1,12 @@
 # **QuokkaJS** 🦘
 
-**QuokkaJS** is a **work-in-progress**, modern, feature-rich library inspired by **jQuery**, built with **TypeScript**. The goal is to create a robust, modular, and developer-friendly library for DOM manipulation, storage access, async utilities, and more, while leveraging the power of TypeScript for type safety and modern JavaScript features.
+**QuokkaJS** is a modern, feature-rich library inspired by **jQuery**, built with **TypeScript**. It aims to provide a robust, modular, and developer-friendly set of utilities for DOM manipulation, storage access, async helpers, and more, while leveraging TypeScript for type safety and modern JavaScript features. Published on npm as `quokka-toolkit`.
 
 ---
 
 ## **Vision**
 
-The goal of QuokkaJS is to provide a **lightweight**, **modular**, and **type-safe** alternative to jQuery for modern web development. It will offer a fluent API for DOM manipulation, utilities for working with storage and async operations, and a plugin system for extensibility.
+The goal of QuokkaJS is to provide a **lightweight**, **modular**, and **type-safe** alternative to jQuery for modern web development. It offers a fluent API for DOM manipulation, utilities for working with storage and async operations, and a plugin system for extensibility.
 
 ---
 
@@ -46,9 +46,27 @@ Here’s what we’re planning to build:
 
 - **Extensible**: Add custom functionality through plugins.
 
-## **Getting Started (For Contributors)**
+## **Getting Started**
 
-Since QuokkaJS is still in development, you can’t install it yet. However, you can contribute to its development! Here’s how to get started:
+Install from npm:
+
+```bash
+npm install quokka-toolkit
+```
+
+Quick usage:
+
+```ts
+import { $, Core } from "quokka-toolkit";
+
+// Select elements
+const items = $(".item");
+
+// Chain DOM helpers
+items.addClass("active").hide().fadeIn();
+```
+
+## **Local Development (For Contributors)**
 
 ### **1. Clone the Repository**
 

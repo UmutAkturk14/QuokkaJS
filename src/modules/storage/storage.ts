@@ -1,4 +1,4 @@
-import { PlainObject } from "@utils/types";
+import { PlainObject } from "../../utils/types";
 import type {
   WebStorage,
   WebStorageEntry,

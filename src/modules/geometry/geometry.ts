@@ -1,5 +1,5 @@
-import type { Core } from '@modules/core';
-import type { GeometryMethods } from "@utils/types/interfaces";
+import type { Core } from '../core';
+import type { GeometryMethods } from "../../utils/types/interfaces";
 
 /**
  * Geometry module implementation for the Core class

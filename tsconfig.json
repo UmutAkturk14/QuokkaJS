@@ -8,18 +8,12 @@
       "@modules/*": ["modules/*"],
       "@utils/*": ["utils/*"]
     },
-    "outDir": "dist",
-    "rootDir": "src",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noUnusedParameters": true,
-    "skipLibCheck": true,
-    "declaration": true,
-    "declarationDir": "dist", // match outDir
-    "emitDeclarationOnly": true,
-    "declarationMap": true
+    "skipLibCheck": true
   },
   "include": ["src/**/*", "src"],
-  "exclude": ["node_modules", "dist", "test"]
+  "exclude": ["node_modules", "dist", "tests"]
 }

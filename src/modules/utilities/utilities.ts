@@ -7,7 +7,7 @@ import {
   ParseURLError,
   QueryParams,
   PlainObject,
-} from "@utils/types";
+} from "../../utils/types";
 class Utilities {
   // Check if the given value is truthy
   isTruthy(value: unknown): boolean {

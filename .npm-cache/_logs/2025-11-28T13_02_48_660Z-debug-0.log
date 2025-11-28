@@ -1,0 +1,18 @@
+0 verbose cli /home/zookeeper/.nvm/versions/node/v20.17.0/bin/node /home/zookeeper/.nvm/versions/node/v20.17.0/bin/npm
+1 info using npm@11.5.2
+2 info using node@v20.17.0
+3 silly config load:file:/home/zookeeper/.nvm/versions/node/v20.17.0/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS/.npmrc
+5 silly config load:file:/home/zookeeper/.npmrc
+6 silly config load:file:/home/zookeeper/.nvm/versions/node/v20.17.0/etc/npmrc
+7 verbose title npm run build
+8 verbose argv "run" "build"
+9 verbose logfile logs-max:10 dir:/home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS/.npm-cache/_logs/2025-11-28T13_02_48_660Z-
+10 verbose logfile /home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS/.npm-cache/_logs/2025-11-28T13_02_48_660Z-debug-0.log
+11 silly logfile done cleaning log files
+12 verbose cwd /home/zookeeper/code/UmutAkturk14/Repositories/Projects/Quokka/QuokkaJS
+13 verbose os Linux 6.14.0-36-generic
+14 verbose node v20.17.0
+15 verbose npm  v11.5.2
+16 verbose exit 0
+17 info ok
